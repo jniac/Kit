@@ -10,7 +10,7 @@ namespace Kit.CoreV1
             static RegisterWithOptionalKey<Listener, object, object> register =
                 new RegisterWithOptionalKey<Listener, object, object>();
 
-            public static int Count { get => register.Count; }
+            public static int TotalCount { get => register.TotalCount; }
             public static string Info { get => register.Info; }
 
             public static IEnumerable<Listener> Get(object target, Event e) =>
@@ -46,7 +46,7 @@ namespace Kit.CoreV1
             {
                 this.target = target ?? global;
                 this.type = type ?? "*";
-                this.key = key;
+                this.key = key ?? defaultKey;
 
                 this.callback = callback;
                 this.enter = enter;
@@ -54,7 +54,7 @@ namespace Kit.CoreV1
 
                 this.eventType = eventType;
 
-                register.Add(this, target, key);
+                register.Add(this, this.target, this.key);
             }
 
             public bool MatchType(object otherType)
@@ -90,9 +90,9 @@ namespace Kit.CoreV1
 
             public override string ToString()
             {
-                string f(object o) => o.Equals(null) ? "no" : "yes";
+                string f(object o) => o == null ? "no" : "yes";
 
-                return $"Listener#{id}({target}, {type}, {eventType}, " +
+                return $"Listener#{id}({target}, {type}, {eventType}, key:{key}, " +
                 	$"callback:{f(callback)}, enter:{f(enter)}, exit:{f(exit)})";
             }
         }

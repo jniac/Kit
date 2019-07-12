@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Kit.CoreV1
@@ -9,8 +10,29 @@ namespace Kit.CoreV1
         {
             protected Dictionary<TKey, HashSet<TValue>> dict = new Dictionary<TKey, HashSet<TValue>>();
 
-            public int Count { get => dict.Count; }
-            public string Info { get => $"Register({Count})\n" + string.Join("\n", dict.Values.Select(v => $"\t{v}")); }
+            public int GetTotalCount()
+            {
+                int count = 0;
+
+                foreach (var set in dict.Values)
+                    count += set.Count;
+
+                return count;
+            }
+            public int TotalCount { get => GetTotalCount(); }
+
+            public string GetInfo()
+            {
+                var strings = new List<string> {  $"Register({TotalCount})" };
+
+                int count = 0;
+                foreach (var set in dict.Values)
+                    foreach (var listener in set)
+                        strings.Add($"\n  {count++}: {listener}");
+
+                return string.Concat(strings);
+            }
+            public string Info { get => GetInfo(); }
 
             public void Add(TValue value, TKey key)
             {

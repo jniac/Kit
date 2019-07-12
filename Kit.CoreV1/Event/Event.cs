@@ -22,7 +22,7 @@ namespace Kit.CoreV1
 
             while (parent != null)
             {
-                parents.Add(parent);
+                parents.Insert(0, parent);
                 parent = parent.ReflectedType;
             }
 
@@ -88,12 +88,15 @@ namespace Kit.CoreV1
 
         public Event()
         {
+            target = global;
             type = ToReadableTypeName(GetType());
         }
 
         public override string ToString()
         {
-            return $"{ToReadableTypeName(GetType())}#{id}({target}, {type})";
+            string phaseStr = Enter ? ", Enter" : Exit ? ", Exit" : "";
+
+            return $"{ToReadableTypeName(GetType())}#{id}({target}, {type}{phaseStr})";
         }
     }
 

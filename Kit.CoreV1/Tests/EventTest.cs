@@ -9,7 +9,8 @@ namespace Kit.CoreV1.Tests
 
         public static void Test()
         {
-            Test1();
+            //Test1();
+            Test2();
         }
     }
 }

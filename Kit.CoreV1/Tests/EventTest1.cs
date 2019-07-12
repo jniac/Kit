@@ -1,8 +1,17 @@
 ﻿using System;
+using System.Linq;
+
 namespace Kit.CoreV1.Tests
 {
     public partial class EventTest
     {
+        public class MainEvent : Event 
+        {
+            public class Step : MainEvent { }
+            public class Start : MainEvent { }
+            public class Stop : MainEvent { }
+        }
+
         public static void Test1()
         {
             Console.WriteLine("Test1");
@@ -38,7 +47,8 @@ namespace Kit.CoreV1.Tests
                 Propagation = t => t.parent,
             });
 
-            print("\nCancel & Once test");
+            print();
+            print("Cancel & Once test");
             Event.Once<Event<Node>>(Node.Get(4), "*", e => {
                 print($"Cancel event: ${e}");
                 e.Cancel();
@@ -54,7 +64,8 @@ namespace Kit.CoreV1.Tests
                 Propagation = t => t.parent,
             });
 
-            print("\nOff");
+            print();
+            print("Off");
             Event.Off(root);
             Event.Dispatch(new Event<Node>
             {
@@ -98,6 +109,16 @@ namespace Kit.CoreV1.Tests
                 Propagation = t => t.Children,
                 EndsGlobal = true,
             });
+
+            print();
+            print("Phase");
+
+            Event.On<MainEvent.Step>(
+                enter: e => print("enter", e),
+                exit: e => print("exit", e));
+
+            Event.Dispatch(new MainEvent.Step { Enter = true });
+            Event.Dispatch(new MainEvent.Step { Exit = true });
         }
     }
 }
