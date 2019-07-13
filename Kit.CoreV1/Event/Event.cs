@@ -71,12 +71,12 @@ namespace Kit.CoreV1
         public bool Enter
         {
             get => Phase == EventPhase.ENTER;
-            set { if (value) Phase = EventPhase.ENTER; }
+            set { Phase = value ? EventPhase.ENTER : EventPhase.EXIT; }
         }
         public bool Exit
         {
             get => Phase == EventPhase.EXIT;
-            set { if (value) Phase = EventPhase.EXIT; }
+            set { Phase = value ? EventPhase.EXIT : EventPhase.ENTER; }
         }
 
         public bool StartsGlobal { get; set; } = false;

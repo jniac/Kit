@@ -15,13 +15,15 @@ namespace Kit.CoreV1
 
             public static IEnumerable<Listener> Get(object target, Event e) =>
                 register.Get(target)
-                .Where(lsn => lsn.eventType.IsInstanceOfType(e) && lsn.MatchType(e.type));
+                .Where(lsn => lsn.eventType.IsInstanceOfType(e) && lsn.MatchType(e.type) && lsn.IsEnabled);
 
             public static Listener[] ByTarget(object target) =>
                 register.Get(target).ToArray();
 
             public static Listener[] ByKey(object key) =>
                 register.GetWithOptionalKey(key).ToArray();
+
+
 
             static int listenerCount;
             public readonly int id = listenerCount++;
@@ -33,8 +35,6 @@ namespace Kit.CoreV1
 
             public int InvokeCount { get; private set; } = 0;
             public int maxInvokeCount = 0;
-
-            List<Listener> nested = new List<Listener>();
 
             public readonly Action<Event> callback, enter, exit;
 
@@ -56,6 +56,42 @@ namespace Kit.CoreV1
 
                 register.Add(this, this.target, this.key);
             }
+
+
+            // While / Phase implementation (tree) >
+            public bool ChildrenDisabled { get; set; } = false;
+            List<Listener> children = new List<Listener>();
+            Listener parent, root;
+            public void AddChild(Listener child)
+            {
+                child.root = root ?? this;
+                child.parent = this;
+            }
+            public bool GetIsEnabled()
+            {
+                Listener current = parent;
+
+                while (current != null)
+                {
+                    if (current.ChildrenDisabled)
+                        return false;
+
+                    current = current.parent;
+                }
+
+                return true;
+            }
+            public bool IsEnabled { get => GetIsEnabled(); }
+
+            public static Listener operator +(Listener lhs, Listener rhs)
+            {
+                lhs.AddChild(rhs);
+
+                return lhs;
+            }
+            // While / Phase implementation (tree) <
+
+
 
             public bool MatchType(object otherType)
             {
