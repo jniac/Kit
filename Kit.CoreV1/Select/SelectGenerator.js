@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+
+	Finally not used!!
+
+*/
+
 const fs = require('fs')
 
 let outputFilename = 'GenericSelect.cs'
