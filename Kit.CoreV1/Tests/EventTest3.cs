@@ -47,12 +47,12 @@ namespace Kit.CoreV1.Tests
             select.Enter(FooState.Targeted, foo2, foo3);
 
             print();
-            print(select.GetLayerInfo());
+            print(select.GetInfo());
 
             select.Remove(foo3);
 
             print();
-            print(select.GetLayerInfo());
+            print(select.GetInfo());
 
             select.Add(foo4);
             select.Enter(FooState.Targeted, foo2, foo3);
@@ -81,7 +81,7 @@ namespace Kit.CoreV1.Tests
             select.EnterAll();
 
             print();
-            print(select.GetLayerInfo());
+            print(select.GetInfo());
         }
     }
 }

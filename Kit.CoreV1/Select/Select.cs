@@ -73,15 +73,21 @@ namespace Kit.CoreV1
 
 
 
-        public string GetLayerInfo()
+        public string GetInfo()
         {
-            int padLength = layers.Values.Max(v => v.GetName().Length);
+            string layerStr = "";
 
-            var strings = layers.Values.Select(layer
-                => $"  {layer.GetName().PadRight(padLength)} ({layer.Count}): {string.Join(",", layer.set)}\n");
+            if (layers.Count > 0)
+            {
+                int padLength = layers.Values.Max(v => v.GetName().Length);
 
-            return "Layer info:\n"
-                + string.Concat(strings);
+                var strings = layers.Values.Select(layer
+                    => $"  {layer.GetName().PadRight(padLength)} ({layer.Count}): {string.Join(",", layer.set)}");
+
+                layerStr = "\n" + string.Join("\n", strings);
+            }
+
+            return $"Select ({layers.Count}):{layerStr}";
         }
     }
 }

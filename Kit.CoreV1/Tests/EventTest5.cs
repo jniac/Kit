@@ -29,8 +29,8 @@ namespace Kit.CoreV1.Tests
                  * new Select<A>(typeof(B), typeof(B), typeof(B));
                  */
 
-                var select = new Select<Foo, (Targeted, Dead)> { foo0, foo1, foo2 };
-                print(select.GetLayerInfo());
+                var select = new Select<Foo> { foo0, foo1, foo2 };
+                print(select.GetInfo());
 
                 Event.On<Targeted>(select, "*",
                     enter: e => print("enter", e.GetType().Name, e.item, e.Phase),
@@ -41,7 +41,7 @@ namespace Kit.CoreV1.Tests
                 select.Next<Targeted>(SelectBoundMode.LOOP);
 
                 print();
-                print(select.GetLayerInfo());
+                print(select.GetInfo());
             }
         }
     }
