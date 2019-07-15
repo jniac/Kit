@@ -79,7 +79,7 @@ namespace Kit.CoreV1
 
 
 
-        // Next:
+        // Previous:
         public void Previous(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
             => GetLayer(defaultLayerKey).Previous(boundMode);
 
