@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Kit.CoreV1.Tests
 {
@@ -7,10 +8,9 @@ namespace Kit.CoreV1.Tests
     {
         static void print(params object[] args) => Console.WriteLine(string.Join(" ", args));
 
-        public static void Test()
+        public static void RunTest()
         {
-            //Test1();
-            Test2();
+            Test5.Test();
         }
     }
 }

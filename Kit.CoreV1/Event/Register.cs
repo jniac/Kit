@@ -10,16 +10,7 @@ namespace Kit.CoreV1
         {
             protected Dictionary<TKey, HashSet<TValue>> dict = new Dictionary<TKey, HashSet<TValue>>();
 
-            public int GetTotalCount()
-            {
-                int count = 0;
-
-                foreach (var set in dict.Values)
-                    count += set.Count;
-
-                return count;
-            }
-            public int TotalCount { get => GetTotalCount(); }
+            public int TotalCount { get; private set; }
 
             public string GetInfo()
             {
@@ -34,17 +25,32 @@ namespace Kit.CoreV1
             }
             public string Info { get => GetInfo(); }
 
-            public void Add(TValue value, TKey key)
+            public bool Contains(TValue value, TKey key)
+            {
+                if (dict.TryGetValue(key, out var values))
+                    return values.Contains(value);
+
+                return false;
+            }
+
+            public bool Add(TValue value, TKey key)
             {
                 if (dict.TryGetValue(key, out var values))
                 {
-                    values.Add(value);
+                    if (values.Add(value))
+                    {
+                        TotalCount++;
+                        return true;
+                    }
+
+                    return false;
                 }
-                else
-                {
-                    values = new HashSet<TValue> { value };
-                    dict.Add(key, values);
-                }
+
+                values = new HashSet<TValue> { value };
+                dict.Add(key, values);
+
+                TotalCount++;
+                return true;
             }
 
             public HashSet<TValue> Get(TKey key)
@@ -55,15 +61,22 @@ namespace Kit.CoreV1
                 return values;
             }
 
-            public void Remove(TValue value, TKey key)
+            public bool Remove(TValue value, TKey key)
             {
                 if (dict.TryGetValue(key, out var values))
                 {
-                    values.Remove(value);
+                    bool removed = values.Remove(value);
+
+                    if (removed)
+                        TotalCount--;
 
                     if (values.Count == 0)
                         dict.Remove(key);
+
+                    return removed;
                 }
+
+                return false;
             }
         }
 

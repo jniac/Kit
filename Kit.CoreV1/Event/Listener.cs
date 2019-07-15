@@ -5,7 +5,7 @@ namespace Kit.CoreV1
 {
     public partial class Event
     {
-        public class Listener
+        public partial class Listener
         {
             static RegisterWithOptionalKey<Listener, object, object> register =
                 new RegisterWithOptionalKey<Listener, object, object>();
@@ -57,42 +57,6 @@ namespace Kit.CoreV1
                 register.Add(this, this.target, this.key);
             }
 
-
-            // While / Phase implementation (tree) >
-            public bool ChildrenDisabled { get; set; } = false;
-            List<Listener> children = new List<Listener>();
-            Listener parent, root;
-            public void AddChild(Listener child)
-            {
-                child.root = root ?? this;
-                child.parent = this;
-            }
-            public bool GetIsEnabled()
-            {
-                Listener current = parent;
-
-                while (current != null)
-                {
-                    if (current.ChildrenDisabled)
-                        return false;
-
-                    current = current.parent;
-                }
-
-                return true;
-            }
-            public bool IsEnabled { get => GetIsEnabled(); }
-
-            public static Listener operator +(Listener lhs, Listener rhs)
-            {
-                lhs.AddChild(rhs);
-
-                return lhs;
-            }
-            // While / Phase implementation (tree) <
-
-
-
             public bool MatchType(object otherType)
             {
                 if (type.Equals("*") || otherType.Equals("*"))
@@ -119,7 +83,15 @@ namespace Kit.CoreV1
 
             public void Destroy()
             {
+                if (Destroyed)
+                    throw new Exception("Listener has already been destroyed");
+
                 register.Remove(this, target, key);
+
+                foreach (var child in children)
+                    child.Destroy();
+
+                children.Clear();
 
                 Destroyed = true;
             }

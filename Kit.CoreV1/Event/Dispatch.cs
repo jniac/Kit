@@ -7,7 +7,7 @@ namespace Kit.CoreV1
 {
     public partial class Event
     {
-        object[] GetTargets(object t)
+        object[] GetPropagationTargets(object t)
         {
             if (t.Equals(global))
                 return new object[0];
@@ -36,12 +36,17 @@ namespace Kit.CoreV1
             var tree = new Dictionary<object, object[]>();
 
             var head = new Queue<object>();
+
             head.Enqueue(e.target);
+
+            if (e.targets != null)
+                foreach (object t in e.targets)
+                    head.Enqueue(t);
 
             while (head.Count > 0)
             {
                 object currentTarget = head.Dequeue();
-                object[] newTargets = e.GetTargets(currentTarget);
+                object[] newTargets = e.GetPropagationTargets(currentTarget);
 
                 tree.Add(currentTarget, newTargets);
 
@@ -74,7 +79,12 @@ namespace Kit.CoreV1
                     listener.Invoke(e);
                     
             var head = new Queue<object>();
+
             head.Enqueue(e.target);
+
+            if (e.targets != null)
+                foreach (object t in e.targets)
+                    head.Enqueue(t);
 
             while (head.Count > 0)
             {

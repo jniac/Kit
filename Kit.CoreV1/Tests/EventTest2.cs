@@ -39,7 +39,6 @@ namespace Kit.CoreV1.Tests
 
             print();
             print("While");
-
             Event.While<RunEvent>(
                 Event.On<TickEvent>(e => print($"#1 tick:{e.count}")),
                 Event.On<TickEvent>(e => print($"#2 tick:{e.count}")));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Kit.CoreV1
@@ -48,8 +49,18 @@ namespace Kit.CoreV1
             get => target;
             set { if (!Locked) target = value; }
         }
+
+        protected IList targets;
+        public IList Targets
+        {
+            get => targets;
+            set { if (!Locked) { targets = value; target = value; } }
+        }
+
         protected object currentTarget;
         public object CurrentTarget { get => currentTarget; }
+
+        public string Name { get; private set; }
 
         protected object type;
         public object Type
@@ -89,14 +100,14 @@ namespace Kit.CoreV1
         public Event()
         {
             target = global;
-            type = ToReadableTypeName(GetType());
+            type = Name = ToReadableTypeName(GetType());
         }
 
         public override string ToString()
         {
             string phaseStr = Enter ? ", Enter" : Exit ? ", Exit" : "";
 
-            return $"{ToReadableTypeName(GetType())}#{id}({target}, {type}{phaseStr})";
+            return $"{Name}#{id}({target}, {type}{phaseStr})";
         }
     }
 
