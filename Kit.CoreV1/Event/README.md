@@ -16,8 +16,8 @@ Event.On(target, type, e => { ... });
 ```c#
 Event.Dispatch(new Event
 {
-	Target = this,
-	Type = "Click",
+    Target = this,
+    Type = "Click",
 });
 ```
 
@@ -31,13 +31,13 @@ Event.On(target, "Click", e => { ... });
 // becomes
 
 class Click : Event {
-	public Pointer pointer;
+    public Pointer pointer;
 }
 
 Event.On<Click>(target, e => {
 
-	// e is Click
-	e.pointer.position
+    // e is Click
+    e.pointer.position
 
 });
 ```
@@ -53,12 +53,12 @@ There are 3 values:
 Listener can be added on a specific phase:
 ```c#
 Event.On(target, type,
-	enter: e => { ... },
-	exit: e => { ... });
+    enter: e => { ... },
+    exit: e => { ... });
 
 Event.On<Selected>(target,
-	enter: e => { ... },
-	exit: e => { ... });
+    enter: e => { ... },
+    exit: e => { ... });
 ```
 
 ### Key & Off()
