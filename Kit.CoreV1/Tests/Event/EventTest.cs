@@ -8,6 +8,20 @@ namespace Kit.CoreV1.Tests
     {
         static void print(params object[] args) => Console.WriteLine(string.Join(" ", args));
 
+        class Foo
+        {
+            static int count;
+            public readonly int id = count++;
+            public override string ToString() => $"Foo#{id}";
+        }
+
+        enum FooState
+        {
+            SelectedByPlayer,
+            Targeted,
+            Dead,
+        }
+
         public static void RunTest()
         {
             Test5.Test();
