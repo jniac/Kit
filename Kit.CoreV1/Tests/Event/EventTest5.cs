@@ -17,20 +17,9 @@ namespace Kit.CoreV1.Tests
                 print("Select Test with events as layers");
                 print();
 
-                var foo0 = new Foo();
-                var foo1 = new Foo();
-                var foo2 = new Foo();
-
-                /*
-                 * new Select<A, (B, C, D)>();
-                 *                 
-                 * is equivalent to:
-                 * 
-                 * new Select<A>(typeof(B), typeof(B), typeof(B));
-                 */
-
                 var select = new Select<Foo> { foo0, foo1, foo2 };
                 print(select.GetInfo());
+                print();
 
                 Event.On<Targeted>(select, "*",
                     enter: e => print("enter", e.GetType().Name, e.item, e.Phase),
@@ -39,6 +28,11 @@ namespace Kit.CoreV1.Tests
                 select.Enter<Targeted>(foo1);
                 select.Next<Targeted>(SelectBoundMode.LOOP);
                 select.Next<Targeted>(SelectBoundMode.LOOP);
+
+                print();
+                print(select.GetInfo());
+
+                select.Enter<Dead>(foo1);
 
                 print();
                 print(select.GetInfo());

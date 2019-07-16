@@ -87,7 +87,7 @@ namespace Kit.CoreV1
                 layerStr = "\n" + string.Join("\n", strings);
             }
 
-            return $"Select ({layers.Count}):{layerStr}";
+            return $"Select ({list.Count}:{layers.Count}):{layerStr}";
         }
     }
 }

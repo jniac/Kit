@@ -13,11 +13,6 @@ namespace Kit.CoreV1.Tests
                 print();
                 print("Select Test");
 
-                var foo1 = new Foo();
-                var foo2 = new Foo();
-                var foo3 = new Foo();
-                var foo4 = new Foo();
-
                 var select = new Select<Foo>("FooSelect") { foo1, foo2, foo3 };
 
                 Event.On<SelectEvent<Foo>.Selected>(select, "*", e
@@ -52,11 +47,6 @@ namespace Kit.CoreV1.Tests
 
                 print();
                 print("Select Test with Enum");
-
-                var foo1 = new Foo();
-                var foo2 = new Foo();
-                var foo3 = new Foo();
-                var foo4 = new Foo();
 
                 var select = new Select<Foo>(typeof(FooState)) { foo1, foo2, foo3 };
 

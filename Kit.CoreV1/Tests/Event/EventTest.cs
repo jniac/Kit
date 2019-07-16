@@ -22,6 +22,12 @@ namespace Kit.CoreV1.Tests
             Dead,
         }
 
+        static Foo foo0 = new Foo();
+        static Foo foo1 = new Foo();
+        static Foo foo2 = new Foo();
+        static Foo foo3 = new Foo();
+        static Foo foo4 = new Foo();
+
         public static void RunTest()
         {
             Test5.Test();
