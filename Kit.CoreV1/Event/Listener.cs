@@ -5,6 +5,12 @@ namespace Kit.CoreV1
 {
     public partial class Event
     {
+        public const int PRIORITY_HIGHER =  2000;
+        public const int PRIORITY_HIGH =   1000;
+        public const int PRIORITY_NORMAL =  0;
+        public const int PRIORITY_LOW =     -1000;
+        public const int PRIORITY_LOWER =   -2000;
+
         public partial class Listener
         {
             static RegisterWithOptionalKey<Listener, object, object> register =
@@ -13,9 +19,16 @@ namespace Kit.CoreV1
             public static int TotalCount { get => register.TotalCount; }
             public static string Info { get => register.Info; }
 
-            public static IEnumerable<Listener> Get(object target, Event e) =>
-                register.Get(target)
-                .Where(lsn => lsn.eventType.IsInstanceOfType(e) && lsn.MatchType(e.type) && lsn.IsEnabled);
+            public static Listener[] Get(object target, Event e)
+            {
+                Listener[] listeners = register.Get(target)
+                    .Where(lsn => lsn.eventType.IsInstanceOfType(e) && lsn.MatchType(e.type) && lsn.IsEnabled)
+                    .ToArray();
+
+                Array.Sort(listeners, (a, b) => b.priority - a.priority);
+
+                return listeners;
+            }
 
             public static Listener[] ByTarget(object target) =>
                 register.Get(target).ToArray();
@@ -37,12 +50,14 @@ namespace Kit.CoreV1
             public int maxInvokeCount = 0;
 
             public readonly Action<Event> callback, enter, exit;
+            public int priority;
 
             public Listener(object target, object type, object key, 
                 Action<Event> callback, 
                 Action<Event> enter, 
                 Action<Event> exit,
-                Type eventType)
+                Type eventType,
+                int priority)
             {
                 this.target = target ?? global;
                 this.type = type ?? "*";
@@ -53,6 +68,8 @@ namespace Kit.CoreV1
                 this.exit = exit;
 
                 this.eventType = eventType;
+
+                this.priority = priority;
 
                 register.Add(this, this.target, this.key);
             }

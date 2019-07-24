@@ -67,15 +67,15 @@ namespace Kit.CoreV1
 
             Listener[] startListeners = 
                 e is IStartsGlobalEvent || e.StartsGlobal ? 
-                Listener.Get(global, e).ToArray() : null;
+                Listener.Get(global, e) : null;
 
             Listener[] endListeners = 
                 e is IEndsGlobalEvent || e.EndsGlobal ? 
-                Listener.Get(global, e).ToArray() : null;
+                Listener.Get(global, e) : null;
 
             var treeListeners = new Dictionary<object, Listener[]>();
             foreach (object target in tree.Keys)
-                treeListeners.Add(target, Listener.Get(target, e).ToArray());
+                treeListeners.Add(target, Listener.Get(target, e));
 
             // 2. Invoke
 
