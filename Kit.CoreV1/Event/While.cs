@@ -6,7 +6,7 @@ namespace Kit.CoreV1
     public partial class Event
     {
         public static Listener While<T>(object target, object type, params Listener[] listeners)
-            where T : Event
+            where T : class, IEvent
         {
             Listener master = null;
 
@@ -22,8 +22,12 @@ namespace Kit.CoreV1
             return master;
         }
 
+        public static Listener While<T>(object target, params Listener[] listeners)
+            where T : class, IEvent
+            => While<T>(target, "*", listeners);
+
         public static Listener While<T>(params Listener[] listeners)
-            where T : Event
+            where T : class, IEvent
             => While<T>(global, "*", listeners);
     }
 }

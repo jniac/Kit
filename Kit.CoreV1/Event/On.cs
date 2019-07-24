@@ -22,7 +22,7 @@ namespace Kit.CoreV1
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null)
-            where T : Event
+            where T : class, IEvent
         {
             Action<Event> callbackT = null, enterT = null, exitT = null;
 
@@ -43,7 +43,7 @@ namespace Kit.CoreV1
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null)
-            where T : Event
+            where T : class, IEvent
             => On<T>(target, "*", callback, enter, exit, key);
 
         public static Listener On<T>(
@@ -51,7 +51,7 @@ namespace Kit.CoreV1
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null)
-            where T : Event
+            where T : class, IEvent
             => On<T>(global, "*", callback, enter, exit, key);
     }
 }

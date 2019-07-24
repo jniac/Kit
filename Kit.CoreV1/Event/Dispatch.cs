@@ -9,7 +9,7 @@ namespace Kit.CoreV1
     {
         object[] GetPropagationTargets(object t)
         {
-            if (t.Equals(global))
+            if (t == null || Equals(t, global))
                 return new object[0];
 
             object newTarget = InvokePropagation(t);
@@ -37,11 +37,13 @@ namespace Kit.CoreV1
 
             var head = new Queue<object>();
 
-            head.Enqueue(e.target);
+            if (e.target != null)
+                head.Enqueue(e.target);
 
             if (e.targets != null)
                 foreach (object t in e.targets)
-                    head.Enqueue(t);
+                    if (t != null)
+                        head.Enqueue(t);
 
             while (head.Count > 0)
             {
@@ -63,8 +65,13 @@ namespace Kit.CoreV1
 
             // 1. Collect
 
-            Listener[] startListeners = e.StartsGlobal ? Listener.Get(global, e).ToArray() : null;
-            Listener[] endListeners = e.EndsGlobal ? Listener.Get(global, e).ToArray() : null;
+            Listener[] startListeners = 
+                e is IStartsGlobalEvent || e.StartsGlobal ? 
+                Listener.Get(global, e).ToArray() : null;
+
+            Listener[] endListeners = 
+                e is IEndsGlobalEvent || e.EndsGlobal ? 
+                Listener.Get(global, e).ToArray() : null;
 
             var treeListeners = new Dictionary<object, Listener[]>();
             foreach (object target in tree.Keys)
@@ -80,11 +87,13 @@ namespace Kit.CoreV1
                     
             var head = new Queue<object>();
 
-            head.Enqueue(e.target);
+            if (e.target != null)
+                head.Enqueue(e.target);
 
             if (e.targets != null)
                 foreach (object t in e.targets)
-                    head.Enqueue(t);
+                    if (t != null)
+                        head.Enqueue(t);
 
             while (head.Count > 0)
             {

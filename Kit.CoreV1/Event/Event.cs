@@ -12,7 +12,7 @@ namespace Kit.CoreV1
         EXIT,
     }
 
-    public partial class Event
+    public partial class Event : IEvent
     {
         public const string global = "global";
 

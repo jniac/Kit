@@ -19,7 +19,7 @@ namespace Kit.CoreV1
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null)
-            where T : Event
+            where T : class, IEvent
         {
             var listener = On<T>(target, type, callback, enter, exit, key);
             listener.maxInvokeCount = 1;
