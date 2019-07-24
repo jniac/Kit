@@ -101,6 +101,7 @@ namespace Kit.CoreV1
         {
             target = global;
             type = Name = ToReadableTypeName(GetType());
+            consumable = this is IConsumableEvent;
         }
 
         public override string ToString()
