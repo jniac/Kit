@@ -9,39 +9,62 @@ namespace Kit.Utils
         public static string StringJoin<T>(this IEnumerable<T> enumerable, string separator = ", ")
             => string.Join(separator, enumerable.Cast<string>());
 
-        public static (TItem item, TValue value) MinItemValue<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> minItemTo) 
+        public static (TItem item, TValue value) Extremum<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> minItemTo, bool minimum)
             where TValue : IComparable
         {
-            TValue minValue = default;
-            TItem minItem = default;
+            TValue value = default;
+            TItem item = default;
 
             bool first = true;
 
-            foreach (TItem item in items)
+            foreach (TItem currentItem in items)
             {
-                TValue itemValue = minItemTo(item);
+                TValue itemValue = minItemTo(currentItem);
 
                 if (first)
                 {
                     first = false;
-                    minValue = itemValue;
-                    minItem = item;
+                    value = itemValue;
+                    item = currentItem;
                 }
                 else
                 {
-                    if (itemValue.CompareTo(minValue) < 0)
+                    if (minimum)
                     {
-                        minValue = itemValue;
-                        minItem = item;
+                        if (itemValue.CompareTo(value) < 0)
+                        {
+                            value = itemValue;
+                            item = currentItem;
+                        }
+                    }
+                    else
+                    {
+                        if (itemValue.CompareTo(value) > 0)
+                        {
+                            value = itemValue;
+                            item = currentItem;
+                        }
                     }
                 }
             }
 
-            return (minItem, minValue);
+            return (item, value);
         }
 
-        public static TItem MinItem<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> minItemTo)
+        public static (TItem item, TValue value) MinItemValue<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> itemToValue)
             where TValue : IComparable
-            => MinItemValue(items, minItemTo).item;
+            => Extremum(items, itemToValue, true);
+
+        public static TItem MinItem<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> itemToValue)
+            where TValue : IComparable
+            => Extremum(items, itemToValue, true).item;
+
+        public static (TItem item, TValue value) MaxItemValue<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> itemToValue)
+            where TValue : IComparable
+            => Extremum(items, itemToValue, false);
+
+        public static TItem MaxItem<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> itemToValue)
+            where TValue : IComparable
+            => Extremum(items, itemToValue, false).item;
     }
 }
