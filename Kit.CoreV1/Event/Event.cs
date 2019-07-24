@@ -69,14 +69,14 @@ namespace Kit.CoreV1
             set { if (!Locked) type = value; }
         }
 
-        protected bool cancelable;
-        public bool Cancelable
+        protected bool consumable;
+        public bool Comsumable
         {
-            get => cancelable;
-            set { if (!Locked) cancelable = value; }
+            get => consumable;
+            set { if (!Locked) consumable = value; }
         }
-        public bool Canceled { get; private set; } = false;
-        public void Cancel() => Canceled = true;
+        public bool Consumed { get; private set; } = false;
+        public void Consume() => Consumed = Comsumable;
 
         public EventPhase Phase { get; set; } = EventPhase.NONE;
         public bool Enter

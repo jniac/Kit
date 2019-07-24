@@ -53,7 +53,7 @@ namespace Kit.CoreV1.Tests
                 print("Cancel & Once test");
                 Event.Once<Event<Node>>(Node.Get(4), "*", e => {
                     print($"Cancel event: ${e}");
-                    e.Cancel();
+                    e.Consume();
                 });
                 Event.Dispatch(new Event<Node>
                 {
@@ -95,7 +95,7 @@ namespace Kit.CoreV1.Tests
 
                 Event.Once<Event<Node>>(Node.Get(4), "*", e => {
                     print($"Cancel down propagation on event: {e}");
-                    e.Cancel();
+                    e.Consume();
                 });
 
                 Event.Dispatch(new Event<Node>

@@ -99,23 +99,23 @@ namespace Kit.CoreV1
             {
                 object currentTarget = head.Dequeue();
 
-                e.Canceled = false;
+                e.Consumed = false;
                 e.currentTarget = currentTarget;
 
                 foreach (Listener listener in treeListeners[currentTarget])
                 {
                     listener.Invoke(e);
 
-                    if (e.Canceled)
+                    if (e.Consumed)
                         break;
                 }
 
-                if (!e.Canceled)
+                if (!e.Consumed)
                     foreach (var newTarget in tree[currentTarget])
                         head.Enqueue(newTarget);
             }
 
-            if (endListeners != null)
+            if (!e.Consumed && endListeners != null)
                 foreach (Listener listener in endListeners)
                     listener.Invoke(e);
 
