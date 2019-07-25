@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Kit.CoreV1.Tests
 {
-    public class Node
+    public class Node : Tree<Node>
     {
         static List<Node> instances = new List<Node>();
         public static Node Get(int id) => instances[id];
@@ -12,105 +12,105 @@ namespace Kit.CoreV1.Tests
         static int count;
         public readonly int id = count++;
 
-        public Node parent;
-        public Node first;
-        public Node last;
-        public Node next;
-
         public Node()
         {
             instances.Add(this);
         }
 
-        public int GetChildCount()
-        {
-            int childCount = 0;
-            Node node = first;
+        ////public Node parent;
+        ////public Node first;
+        ////public Node last;
+        ////public Node next;
 
-            while (node)
-            {
-                childCount++;
-                node = node.next;
-            }
+        ////public int GetChildCount()
+        ////{
+        ////    int childCount = 0;
+        ////    Node node = first;
 
-            return childCount;
-        }
-        public int ChildCount { get => GetChildCount(); }
+        ////    while (node)
+        ////    {
+        ////        childCount++;
+        ////        node = node.next;
+        ////    }
 
-        public List<Node> GetChildren()
-        {
-            var children = new List<Node>();
-            Node node = first;
+        ////    return childCount;
+        ////}
+        ////public int ChildCount { get => GetChildCount(); }
 
-            while (node)
-            {
-                children.Add(node);
-                node = node.next;
-            }
+        ////public List<Node> GetChildren()
+        ////{
+        ////    var children = new List<Node>();
+        ////    Node node = first;
 
-            return children;
-        }
-        public List<Node> Children { get => GetChildren(); }
+        ////    while (node)
+        ////    {
+        ////        children.Add(node);
+        ////        node = node.next;
+        ////    }
 
-        public int Level
-        {
-            get
-            {
-                int level = 0;
-                Node node = parent;
+        ////    return children;
+        ////}
+        ////public List<Node> Children { get => GetChildren(); }
 
-                while(node)
-                {
-                    node = node.parent;
-                    level++;
-                }
+        ////public int Level
+        ////{
+        ////    get
+        ////    {
+        ////        int level = 0;
+        ////        Node node = parent;
 
-                return level;
-            }
-        }
+        ////        while(node)
+        ////        {
+        ////            node = node.parent;
+        ////            level++;
+        ////        }
 
-        public void Walk(Action<Node> callback)
-        {
-            callback(this);
+        ////        return level;
+        ////    }
+        ////}
 
-            Node node = first;
+        ////public void Walk(Action<Node> callback)
+        ////{
+        ////    callback(this);
 
-            while(node)
-            {
-                node.Walk(callback);
-                node = node.next;
-            }
-        }
+        ////    Node node = first;
 
-        public Node Append(Node node)
-        {
-            node.parent = this;
+        ////    while(node)
+        ////    {
+        ////        node.Walk(callback);
+        ////        node = node.next;
+        ////    }
+        ////}
 
-            if (last)
-            {
-                last.next = node;
-                last = node;
-            }
-            else
-            {
-                first = last = node;
-            }
+        ////public Node Append(Node node)
+        ////{
+        ////    node.parent = this;
 
-            return this;
-        }
+        ////    if (last)
+        ////    {
+        ////        last.next = node;
+        ////        last = node;
+        ////    }
+        ////    else
+        ////    {
+        ////        first = last = node;
+        ////    }
 
-        public Node Append(params Node[] nodes)
-        {
-            foreach (var node in nodes)
-                Append(node);
+        ////    return this;
+        ////}
 
-            return this;
-        }
+        ////public Node Append(params Node[] nodes)
+        ////{
+        ////    foreach (var node in nodes)
+        ////        Append(node);
 
-        public override string ToString()
-        {
-            return $"Node#{id}";
-        }
+        ////    return this;
+        ////}
+
+        //public override string ToString()
+        //{
+        //    return $"Node#{id}";
+        //}
 
         public string ToLineString() => 
             string.Concat(Enumerable.Repeat(" . ", Level)

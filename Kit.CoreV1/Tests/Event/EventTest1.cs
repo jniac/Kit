@@ -46,7 +46,7 @@ namespace Kit.CoreV1.Tests
                 Event.Dispatch(new Event<Node>
                 {
                     Target = someChild,
-                    Propagation = t => t.parent,
+                    Propagation = t => t.Parent,
                 });
 
                 print();
@@ -58,12 +58,12 @@ namespace Kit.CoreV1.Tests
                 Event.Dispatch(new Event<Node>
                 {
                     Target = someChild,
-                    Propagation = t => t.parent,
+                    Propagation = t => t.Parent,
                 });
                 Event.Dispatch(new Event<Node>
                 {
                     Target = someChild,
-                    Propagation = t => t.parent,
+                    Propagation = t => t.Parent,
                 });
 
                 print();
@@ -72,7 +72,7 @@ namespace Kit.CoreV1.Tests
                 Event.Dispatch(new Event<Node>
                 {
                     Target = someChild,
-                    Propagation = t => t.parent,
+                    Propagation = t => t.Parent,
                 });
                 print(Event.Listener.Info);
 
