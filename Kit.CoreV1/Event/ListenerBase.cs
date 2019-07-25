@@ -16,6 +16,7 @@ namespace Kit.CoreV1
             {
                 child.root = root ?? this;
                 child.parent = this;
+                children.Add(child);
             }
 
             public IEnumerable<Listener> GetAncestors()
