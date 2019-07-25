@@ -6,7 +6,7 @@ namespace Kit.CoreV1
     public partial class Event
     {
         public const int PRIORITY_HIGHER =  2000;
-        public const int PRIORITY_HIGH =   1000;
+        public const int PRIORITY_HIGH =    1000;
         public const int PRIORITY_NORMAL =  0;
         public const int PRIORITY_LOW =     -1000;
         public const int PRIORITY_LOWER =   -2000;
