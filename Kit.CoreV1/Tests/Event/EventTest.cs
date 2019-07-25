@@ -30,7 +30,7 @@ namespace Kit.CoreV1.Tests
 
         public static void RunTest()
         {
-            Test5.Test();
+            Test1.Test();
         }
     }
 }
