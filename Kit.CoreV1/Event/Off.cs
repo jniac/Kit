@@ -9,13 +9,13 @@ namespace Kit.CoreV1
             if (target == null)
             {
                 foreach (var listener in Listener.ByKey(key))
-                    listener.Destroy();
+                    listener.Destroy(throwIfAlreadyDestroyed: false);
             }
             else
             {
                 foreach (var listener in Listener.ByTarget(target))
                     if (key == null || listener.key == key)
-                        listener.Destroy();
+                        listener.Destroy(throwIfAlreadyDestroyed: false);
             }
         }
     }

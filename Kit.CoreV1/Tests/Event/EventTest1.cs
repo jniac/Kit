@@ -74,7 +74,7 @@ namespace Kit.CoreV1.Tests
                     Target = someChild,
                     Propagation = t => t.Parent,
                 });
-                print(Event.Listener.Info);
+                print(Event.Listener.InfoAllListener);
 
 
                 print();

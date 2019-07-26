@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -12,18 +12,24 @@ namespace Kit.CoreV1
 
             public int TotalCount { get; private set; }
 
-            public string GetInfo()
+            public string InfoAllValues
             {
-                var strings = new List<string> {  $"Register({TotalCount})" };
+                get
+                {
+                    var sb = new StringBuilder();
 
-                int count = 0;
-                foreach (var set in dict.Values)
-                    foreach (var listener in set)
-                        strings.Add($"\n  {count++}: {listener}");
+                    sb.Append($"Register({TotalCount})");
 
-                return string.Concat(strings);
+                    int count = 0;
+                    foreach (var set in dict.Values)
+                        foreach (var listener in set)
+                            sb.Append($"\n  {count++}: {listener}");
+
+                    return sb.ToString();
+                }
             }
-            public string Info { get => GetInfo(); }
+
+            public Dictionary<TKey, HashSet<TValue>>.KeyCollection Keys { get => dict.Keys; }
 
             public bool Contains(TValue value, TKey key)
             {

@@ -28,13 +28,13 @@ namespace Kit.CoreV1.Tests
 
                 });
 
-                print(Event.Listener.Info);
+                print(Event.Listener.InfoAllListener);
 
                 Event.Dispatch(new Event { Target = "foo", Type = "bar" });
 
                 Event.Off(key: "yolo");
 
-                print(Event.Listener.Info);
+                print(Event.Listener.InfoAllListener);
 
                 Event.Dispatch(new Event { Target = "foo", Type = "bar" });
 

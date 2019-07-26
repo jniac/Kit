@@ -17,7 +17,9 @@ namespace Kit.CoreV1
                 new RegisterWithOptionalKey<Listener, object, object>();
 
             public static int TotalCount { get => register.TotalCount; }
-            public static string Info { get => register.Info; }
+            public static string Info { get => $"Listeners: {register.TotalCount}, keys: {register.Keys.Count()}"; }
+            public static string InfoAllListener { get => register.InfoAllValues; }
+            public static string InfoAllKeys { get => string.Join("\n", register.Keys.Select((v, i) => $"{i}: {v}")); }
 
             public static Listener[] Get(object target, Event e)
             {
@@ -98,15 +100,23 @@ namespace Kit.CoreV1
                     Destroy();
             }
 
-            public void Destroy()
+            public void Destroy(bool throwIfAlreadyDestroyed = true)
             {
                 if (Destroyed)
-                    throw new Exception("Listener has already been destroyed");
+                {
+                    if (throwIfAlreadyDestroyed)
+                    {
+                        string info(object obj) => $"{(obj != null ? obj.GetType().Name : "null")}|{obj}";
+                        throw new Exception($"Listener has already been destroyed ({info(target)}, {info(key)})");
+                    }
+
+                    return;
+                }
 
                 register.Remove(this, target, key);
 
                 foreach (var child in children)
-                    child.Destroy();
+                    child.Destroy(throwIfAlreadyDestroyed);
 
                 children.Clear();
 
