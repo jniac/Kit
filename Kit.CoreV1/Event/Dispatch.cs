@@ -59,18 +59,21 @@ namespace Kit.CoreV1
             return tree;
         }
 
-        public static void Dispatch(Event e)
+        public static bool Dispatching { get; private set; } = false;
+        static List<Action> afterDispatching = new List<Action>();
+
+        static void DoDispatch(Event e)
         {
             var tree = GetTree(e);
 
             // 1. Collect
 
-            Listener[] startListeners = 
-                e is IStartsGlobalEvent || e.StartsGlobal ? 
+            Listener[] startListeners =
+                e is IStartsGlobalEvent || e.StartsGlobal ?
                 Listener.Get(global, e) : null;
 
-            Listener[] endListeners = 
-                e is IEndsGlobalEvent || e.EndsGlobal ? 
+            Listener[] endListeners =
+                e is IEndsGlobalEvent || e.EndsGlobal ?
                 Listener.Get(global, e) : null;
 
             var treeListeners = new Dictionary<object, Listener[]>();
@@ -84,7 +87,7 @@ namespace Kit.CoreV1
             if (startListeners != null)
                 foreach (Listener listener in startListeners)
                     listener.Invoke(e);
-                    
+
             var head = new Queue<object>();
 
             if (e.target != null)
@@ -118,7 +121,27 @@ namespace Kit.CoreV1
             if (!e.Consumed && endListeners != null)
                 foreach (Listener listener in endListeners)
                     listener.Invoke(e);
+        }
 
+        public static void Dispatch(Event e)
+        {
+            if (Dispatching)
+            {
+                afterDispatching.Add(() => Dispatch(e));
+                return;
+            }
+
+            Dispatching = true;
+
+            DoDispatch(e);
+
+            Dispatching = false;
+
+            Action[] actions = afterDispatching.ToArray();
+            afterDispatching.Clear();
+
+            foreach (var action in actions)
+                action();
         }
     }
 }
