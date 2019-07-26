@@ -67,6 +67,11 @@ namespace Kit.CoreV1
 
 
 
+        public bool IsEntered<TLayer>(T item)
+            => GetLayer<TLayer>().IsEntered(item);
+
+
+
         // Next:
         public void Next()
             => GetLayer(defaultLayerKey).Next();
