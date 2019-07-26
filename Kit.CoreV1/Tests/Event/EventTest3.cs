@@ -25,7 +25,7 @@ namespace Kit.CoreV1.Tests
                 select.Enter(FooState.SelectedByPlayer, foo1);
                 select.Enter(FooState.SelectedByPlayer, foo2);
 
-                select.GetLayer(FooState.Targeted).mode = SelectLayerMode.Multiple;
+                select.GetLayer(FooState.Targeted).layerMode = SelectLayerMode.Multiple;
                 select.Enter(FooState.Targeted, foo1);
                 select.Enter(FooState.Targeted, foo2, foo3);
 
@@ -50,7 +50,7 @@ namespace Kit.CoreV1.Tests
 
                 var select = new Select<Foo>(typeof(FooState)) { foo1, foo2, foo3 };
 
-                select.GetLayer(FooState.SelectedByPlayer).mode = SelectLayerMode.Multiple;
+                select.GetLayer(FooState.SelectedByPlayer).layerMode = SelectLayerMode.Multiple;
 
                 select.Enter(foo1);
                 select.Enter(FooState.SelectedByPlayer, foo2);

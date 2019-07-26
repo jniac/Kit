@@ -17,7 +17,8 @@ namespace Kit.CoreV1
             public readonly object key;
             public readonly Select<T> select;
 
-            public SelectLayerMode mode = SelectLayerMode.Single;
+            public SelectLayerMode layerMode = SelectLayerMode.Single;
+            public SelectBoundMode boundMode = SelectBoundMode.CLAMP;
 
             public HashSet<T> set = new HashSet<T>();
             List<Event> events = new List<Event>();
@@ -92,7 +93,7 @@ namespace Kit.CoreV1
                 if (set.Contains(item))
                     return;
 
-                if (mode == SelectLayerMode.Single && set.Count == 1)
+                if (layerMode == SelectLayerMode.Single && set.Count == 1)
                     DoExit(set.First());
 
                 DoEnter(item);
@@ -102,7 +103,7 @@ namespace Kit.CoreV1
 
             public void Enter(params T[] items)
             {
-                if (mode == SelectLayerMode.Single)
+                if (layerMode == SelectLayerMode.Single)
                     throw new Exception($"Select oups, this layer is NOT in mode {SelectLayerMode.Multiple} (but {SelectLayerMode.Single})");
 
                 foreach (T item in items)
@@ -146,7 +147,7 @@ namespace Kit.CoreV1
             public void ExitAll() => Exit(set.ToArray());
 
 
-            void Increment(SelectBoundMode boundMode, int step)
+            void Increment(SelectBoundMode incrementBoundMode, int step)
             {
                 T currentItem = set.FirstOrDefault();
                 int currentIndex = select.list.IndexOf(currentItem);
@@ -154,7 +155,7 @@ namespace Kit.CoreV1
                 if (currentIndex != -1)
                     DoExit(currentItem);
 
-                int nextIndex = Bounded(currentIndex + 1, select.Count, boundMode);
+                int nextIndex = Bounded(currentIndex + 1, select.Count, incrementBoundMode);
                 T nextItem = select.list[nextIndex];
 
                 if (nextIndex != -1)
@@ -163,10 +164,16 @@ namespace Kit.CoreV1
                 DoChange();
             }
 
-            public void Next(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+            public void Next()
                 => Increment(boundMode, 1);
 
-            public void Previous(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+            public void Previous()
+                => Increment(boundMode, -1);
+
+            public void Next(SelectBoundMode boundMode)
+                => Increment(boundMode, 1);
+
+            public void Previous(SelectBoundMode boundMode)
                 => Increment(boundMode, -1);
 
             public string GetInfo() => $"{key}({set.Count}): {string.Join(",", set.ToArray())}";

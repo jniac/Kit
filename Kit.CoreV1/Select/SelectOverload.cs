@@ -68,25 +68,43 @@ namespace Kit.CoreV1
 
 
         // Next:
-        public void Next(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+        public void Next()
+            => GetLayer(defaultLayerKey).Next();
+
+        public void Next(object layerKey)
+            => GetLayer(layerKey).Next();
+
+        public void Next<TLayer>()
+            => GetLayer<TLayer>().Next();
+
+        public void Next(SelectBoundMode boundMode)
             => GetLayer(defaultLayerKey).Next(boundMode);
 
-        public void Next(object layerKey, SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+        public void Next(object layerKey, SelectBoundMode boundMode)
             => GetLayer(layerKey).Next(boundMode);
 
-        public void Next<TLayer>(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+        public void Next<TLayer>(SelectBoundMode boundMode)
             => GetLayer<TLayer>().Next(boundMode);
 
 
 
         // Previous:
-        public void Previous(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+        public void Previous()
+            => GetLayer(defaultLayerKey).Previous();
+
+        public void Previous(object layerKey)
+            => GetLayer(layerKey).Previous();
+
+        public void Previous<TLayer>()
+            => GetLayer<TLayer>().Previous();
+            
+        public void Previous(SelectBoundMode boundMode)
             => GetLayer(defaultLayerKey).Previous(boundMode);
 
-        public void Previous(object layerKey, SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+        public void Previous(object layerKey, SelectBoundMode boundMode)
             => GetLayer(layerKey).Previous(boundMode);
 
-        public void Previous<TLayer>(SelectBoundMode boundMode = SelectBoundMode.CLAMP)
+        public void Previous<TLayer>(SelectBoundMode boundMode)
             => GetLayer<TLayer>().Previous(boundMode);
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable RECS0108 // Signale les champs statiques dans les types génériques
+
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -91,3 +93,5 @@ namespace Kit.CoreV1
         }
     }
 }
+
+#pragma warning restore RECS0108 // Signale les champs statiques dans les types génériques
