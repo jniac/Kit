@@ -97,6 +97,8 @@ namespace Kit.CoreV1
         protected virtual object InvokePropagation(object t)
             => Propagation == null ? null : Propagation(t);
 
+        public Action OnDispatch;
+
         public Event()
         {
             target = global;

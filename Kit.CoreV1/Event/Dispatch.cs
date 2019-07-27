@@ -64,6 +64,9 @@ namespace Kit.CoreV1
 
         static void DoDispatch(Event e)
         {
+            if (e.OnDispatch != null)
+                afterDispatching.Add(e.OnDispatch);
+
             var tree = GetTree(e);
 
             // 1. Collect
