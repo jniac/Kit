@@ -26,7 +26,7 @@ namespace Kit.CoreV1
 `.trim()
 
 let outputFilename = 'SelectOverloadMultiple.cs'
-let max = 4
+let max = 8
 
 const prependTabs = (str, n, tab = '    ') =>
     str.split('\n').map(s => tab.repeat(n) + s).join('\n')
