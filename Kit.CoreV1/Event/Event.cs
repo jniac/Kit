@@ -84,6 +84,12 @@ namespace Kit.CoreV1
             Consumed = consumable;
         }
 
+        public void ConsumeAndDispatch(Event e)
+        {
+            Consume();
+            Dispatch(e);
+        }
+
         public EventPhase Phase { get; set; } = EventPhase.NONE;
         public bool Enter
         {
