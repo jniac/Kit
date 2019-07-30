@@ -15,7 +15,7 @@ namespace Kit.CoreV1
             return listener;
         }
 
-        public static Listener Once<T>(object target, object type,
+        public static Listener<T> Once<T>(object target, object type,
             Action<T> callback = null,
             Action<T> enter = null,
             Action<T> exit = null,

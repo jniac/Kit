@@ -19,7 +19,7 @@ namespace Kit.CoreV1
             int priority = PRIORITY_NORMAL)
             => new Listener(target, "*", key, callback, enter, exit, typeof(Event), priority);
 
-        public static Listener On<T>(object target, object type,
+        public static Listener<T> On<T>(object target, object type,
             Action<T> callback = null,
             Action<T> enter = null,
             Action<T> exit = null,
@@ -38,10 +38,10 @@ namespace Kit.CoreV1
             if (exit != null)
                 exitT = e => exit(e as T);
 
-            return new Listener(target, type, key, callbackT, enterT, exitT, typeof(T), priority);
+            return new Listener<T>(target, type, key, callbackT, enterT, exitT, typeof(T), priority);
         }
 
-        public static Listener On<T>(object target,
+        public static Listener<T> On<T>(object target,
             Action<T> callback = null,
             Action<T> enter = null,
             Action<T> exit = null,
@@ -50,7 +50,7 @@ namespace Kit.CoreV1
             where T : class, IEvent
             => On<T>(target, "*", callback, enter, exit, key, priority);
 
-        public static Listener On<T>(
+        public static Listener<T> On<T>(
             Action<T> callback = null,
             Action<T> enter = null,
             Action<T> exit = null,

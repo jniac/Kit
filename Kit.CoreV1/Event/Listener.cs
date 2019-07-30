@@ -94,6 +94,8 @@ namespace Kit.CoreV1
                 if (e.Exit)
                     exit?.Invoke(e);
 
+                DisposeAwaiters(e);
+
                 InvokeCount++;
 
                 if (maxInvokeCount == InvokeCount)
