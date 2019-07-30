@@ -76,7 +76,13 @@ namespace Kit.CoreV1
             set { if (!Locked) consumable = value; }
         }
         public bool Consumed { get; private set; } = false;
-        public void Consume() => Consumed = Comsumable;
+        public void Consume(bool throwIfNotConsumable = true)
+        {
+            if (!consumable && throwIfNotConsumable)
+                throw new Exception($"Event cannot be consumed (consumable == {consumable})! ({this})");
+
+            Consumed = consumable;
+        }
 
         public EventPhase Phase { get; set; } = EventPhase.NONE;
         public bool Enter
