@@ -84,7 +84,7 @@ namespace Kit.CoreV1
                 return type.Equals(otherType);
             }
 
-            public void Invoke(Event e)
+            public Event Invoke(Event e)
             {
                 callback?.Invoke(e);
 
@@ -98,6 +98,8 @@ namespace Kit.CoreV1
 
                 if (maxInvokeCount == InvokeCount)
                     Destroy();
+
+                return e;
             }
 
             public void Destroy(bool throwIfAlreadyDestroyed = true)

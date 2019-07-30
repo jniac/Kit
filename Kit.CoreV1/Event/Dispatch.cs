@@ -7,6 +7,21 @@ namespace Kit.CoreV1
 {
     public partial class Event
     {
+        IEnumerable<object> GetTargets()
+        {
+            var list = new List<object>();
+
+            if (target != null)
+                list.Add(target);
+
+            if (targets != null)
+                foreach (object t in targets)
+                    if (t != null)
+                        list.Add(t);
+
+            return list;
+        }
+
         object[] GetPropagationTargets(object t)
         {
             if (t == null || Equals(t, global))
@@ -37,13 +52,8 @@ namespace Kit.CoreV1
 
             var head = new Queue<object>();
 
-            if (e.target != null)
-                head.Enqueue(e.target);
-
-            if (e.targets != null)
-                foreach (object t in e.targets)
-                    if (t != null)
-                        head.Enqueue(t);
+            foreach (var target in e.GetTargets())
+                head.Enqueue(target);
 
             while (head.Count > 0)
             {
@@ -89,17 +99,13 @@ namespace Kit.CoreV1
 
             if (startListeners != null)
                 foreach (Listener listener in startListeners)
-                    listener.Invoke(e);
+                    if (listener.Invoke(e).Consumed)
+                        break;
 
             var head = new Queue<object>();
 
-            if (e.target != null)
-                head.Enqueue(e.target);
-
-            if (e.targets != null)
-                foreach (object t in e.targets)
-                    if (t != null)
-                        head.Enqueue(t);
+            foreach (var target in e.GetTargets())
+                head.Enqueue(target);
 
             while (head.Count > 0)
             {
@@ -109,12 +115,8 @@ namespace Kit.CoreV1
                 e.currentTarget = currentTarget;
 
                 foreach (Listener listener in treeListeners[currentTarget])
-                {
-                    listener.Invoke(e);
-
-                    if (e.Consumed)
+                    if (listener.Invoke(e).Consumed)
                         break;
-                }
 
                 if (!e.Consumed)
                     foreach (var newTarget in tree[currentTarget])
@@ -123,7 +125,8 @@ namespace Kit.CoreV1
 
             if (!e.Consumed && endListeners != null)
                 foreach (Listener listener in endListeners)
-                    listener.Invoke(e);
+                    if (listener.Invoke(e).Consumed)
+                        break;
         }
 
         public static void Dispatch(Event e)
