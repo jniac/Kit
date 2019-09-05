@@ -16,5 +16,15 @@ namespace Kit.Utils
                 dictionary.Add(key, value);
             }
         }
+
+        public static IEnumerable<(TKey key, TValue item, int index)> KeyItemIndex<TKey, TValue>
+            (this IDictionary<TKey, TValue> dictionary)
+        {
+            int index = 0;
+
+            foreach (var item in dictionary)
+                yield return (item.Key, item.Value, index++);
+        }
+
     }
 }
