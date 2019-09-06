@@ -5,28 +5,25 @@ namespace Kit.Utils
 {
     public static class IListExtensions
     {
-        public static T PopFirstItem<T>(this IList<T> list)
+        public static T PopAt<T>(this IList<T> list, int index, bool allowBackward = true)
         {
-            if (list.Count == 0)
-                throw new Exception("oups, the current IList has no item to pop (Count == 0)");
+            int count = list.Count;
+            int i = index < 0 && allowBackward ? count + index : index;
 
-            T item = list[0];
-            list.RemoveAt(0);
+            if (i < 0 || i >= count)
+                throw new Exception($"oups, the current IList has no item to pop (index: {i}, Count: {count})");
+
+            T item = list[i];
+            list.RemoveAt(i);
 
             return item;
         }
+        public static T PopFirst<T>(this IList<T> list) =>
+            PopAt(list, 0);
 
-        public static T PopLastItem<T>(this IList<T> list)
-        {
-            if (list.Count == 0)
-                throw new Exception("oups, the current IList has no item to pop (Count == 0)");
+        public static T PopLast<T>(this IList<T> list) =>
+            PopAt(list, -1, true);
 
-            int index = list.Count - 1;
-            T item = list[index];
-            list.RemoveAt(index);
-
-            return item;
-        }
 
         /*
          * for conditional test, eg:
