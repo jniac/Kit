@@ -7,7 +7,7 @@ namespace Kit.Utils
     public static class IEnumerableExtensions
     {
         public static string StringJoin<T>(this IEnumerable<T> enumerable, string separator = ", ")
-            => string.Join(separator, enumerable.Cast<string>());
+            => string.Join(separator, enumerable.Select(item => item?.ToString()));
 
         public static (TItem item, TValue value) Extremum<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> minItemTo, bool minimum)
             where TValue : IComparable
