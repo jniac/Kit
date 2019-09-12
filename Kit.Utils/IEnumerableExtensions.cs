@@ -9,6 +9,9 @@ namespace Kit.Utils
         public static string StringJoin<T>(this IEnumerable<T> enumerable, string separator = ", ")
             => string.Join(separator, enumerable.Select(item => item?.ToString()));
 
+        public static string StringInfo<T>(this IEnumerable<T> items, string separator = ", ")
+            => $"{items.GetType().Name}<{typeof(T).Name}>({items.Count()}) {StringJoin(items, separator)}";
+
         public static (TItem item, TValue value) Extremum<TItem, TValue>(this IEnumerable<TItem> items, Func<TItem, TValue> minItemTo, bool minimum)
             where TValue : IComparable
         {
