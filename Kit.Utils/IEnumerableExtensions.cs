@@ -127,5 +127,31 @@ namespace Kit.Utils
             foreach (T item in list)
                 yield return (item, index++);
         }
+
+
+        /// <summary>
+        /// Distribute the specified items into two (or more) lists, according specified conditions.
+        /// </summary>
+        /// <returns>The lists.</returns>
+        /// <param name="items">Items.</param>
+        /// <param name="condition1">Condition1.</param>
+        /// <param name="condition2">Condition2.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        public static (List<T> list1, List<T> list2) Distribute<T>(this IEnumerable<T> items, Func<T, bool> condition1, Func<T, bool> condition2)
+        {
+            var list1 = new List<T>();
+            var list2 = new List<T>();
+
+            foreach(T item in items)
+            {
+                if (condition1(item))
+                    list1.Add(item);
+
+                if (condition2(item))
+                    list2.Add(item);
+            }
+
+            return (list1, list2);
+        }
     }
 }
