@@ -77,26 +77,31 @@ namespace Kit.Utils
          * })
          */
         public static IEnumerable<T> ForInterval<T>(this IEnumerable<T> items,
-            Action<(T itemA, T itemB, int index, int total)> callback)
+            Action<(T itemA, T itemB, int index, int total)> callback, bool closed = false)
         {
             int count = 0;
-            int total = items.Count() - 1;
-            T previous = default;
+            int total = items.Count() + (closed ? 0 : -1);
+            T previous = default, first = default;
 
             foreach (T item in items)
             {
-                if (count > 0)
+                if (count == 0)
+                    first = item;
+                else
                     callback((previous, item, count - 1, total));
 
                 previous = item;
                 count++;
             }
 
+            if (closed)
+                callback((previous, first, count - 1, total));
+
             return items;
         }
         public static IEnumerable<T> ForInterval<T>(this IEnumerable<T> items,
-            Action<T, T> callback)
-            => ForInterval(items, i => callback(i.itemA, i.itemB));
+            Action<T, T> callback, bool closed = false)
+            => ForInterval(items, i => callback(i.itemA, i.itemB), closed);
 
         /*
          * useful for distance calculation, eg:
