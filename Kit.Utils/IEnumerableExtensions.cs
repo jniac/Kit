@@ -156,5 +156,54 @@ namespace Kit.Utils
 
             return (list1, list2);
         }
+        public static (List<T> list1, List<T> list2) Distribute2<T>(this IEnumerable<T> items, Func<T, int> distribution)
+        {
+            var list1 = new List<T>();
+            var list2 = new List<T>();
+
+            foreach (T item in items)
+            {
+                switch (distribution(item))
+                {
+                    case 1:
+                        list1.Add(item);
+                        break;
+
+                    case 2:
+                        list2.Add(item);
+                        break;
+                }
+            }
+
+            return (list1, list2);
+        }
+
+        public static (List<T> list1, List<T> list2, List<T> list3) 
+            Distribute3<T>(this IEnumerable<T> items, Func<T, int> distribution)
+        {
+            var list1 = new List<T>();
+            var list2 = new List<T>();
+            var list3 = new List<T>();
+
+            foreach (T item in items)
+            {
+                switch (distribution(item))
+                {
+                    case 1:
+                        list1.Add(item);
+                        break;
+
+                    case 2:
+                        list2.Add(item);
+                        break;
+
+                    case 3:
+                        list3.Add(item);
+                        break;
+                }
+            }
+
+            return (list1, list2, list3);
+        }
     }
 }
