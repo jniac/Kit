@@ -205,5 +205,17 @@ namespace Kit.Utils
 
             return (list1, list2, list3);
         }
+
+        public static void Deconstruct<T>(this IEnumerable<T> list, out T first, out IList<T> rest)
+        {
+            first = list.FirstOrDefault();
+            rest = list.Skip(1).ToList();
+        }
+        public static void Deconstruct<T>(this IEnumerable<T> list, out T first, out T second, out IList<T> rest)
+        {
+            first = list.FirstOrDefault();
+            second = list.Skip(1).FirstOrDefault();
+            rest = list.Skip(2).ToList();
+        }
     }
 }
