@@ -116,7 +116,7 @@ namespace Kit.Utils
 
             return start;
         }
-    
+
         /// <summary>
         /// Get Item AND index from any IEnumerable instance.
         /// </summary>
@@ -129,6 +129,14 @@ namespace Kit.Utils
 
             foreach (T item in list)
                 yield return (item, index++);
+        }
+        public static IEnumerable<(T item, int index, int count)> ItemIndexCount<T>(this IEnumerable<T> list)
+        {
+            int count = list.Count();
+            int index = 0;
+
+            foreach (T item in list)
+                yield return (item, index++, count);
         }
 
 
