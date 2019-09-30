@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Kit.Utils
@@ -24,6 +25,12 @@ namespace Kit.Utils
 
             foreach (var item in dictionary)
                 yield return (item.Key, item.Value, index++);
+        }
+
+        public static void Deconstruct(this DictionaryEntry entry, out object key, out object value)
+        {
+            key = entry.Key;
+            value = entry.Value;
         }
 
     }
