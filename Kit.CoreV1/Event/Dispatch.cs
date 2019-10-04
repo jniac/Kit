@@ -69,12 +69,15 @@ namespace Kit.CoreV1
         }
 
         public static bool Dispatching { get; private set; } = false;
-        static List<Action> afterDispatching = new List<Action>();
+        // NOTE: using Queue instead of List seems more robust when nested Dispatch() are called.
+        // [afterDispatching] seems to respect order of incoming dispatch.
+        // WARN: This must be handled very carefully since it can cause very serious problems.
+        static Queue<Action> afterDispatching = new Queue<Action>();
 
         static void DoDispatch(Event e)
         {
             if (e.OnDispatch != null)
-                afterDispatching.Add(e.OnDispatch);
+                afterDispatching.Enqueue(e.OnDispatch);
 
             var tree = GetTree(e);
 
@@ -132,7 +135,7 @@ namespace Kit.CoreV1
         {
             if (Dispatching)
             {
-                afterDispatching.Add(() => Dispatch(e));
+                afterDispatching.Enqueue(() => Dispatch(e));
                 return;
             }
 
@@ -142,11 +145,13 @@ namespace Kit.CoreV1
 
             Dispatching = false;
 
-            Action[] actions = afterDispatching.ToArray();
-            afterDispatching.Clear();
-
-            foreach (var action in actions)
-                action();
+            // NOTE: here it was different before (and buggy):
+            // Action[] actions = afterDispatching.ToArray();
+            // afterDispatching.Clear();
+            // then loop en [actions]
+            // cf: NOTE & WARN higher
+            while (afterDispatching.Count > 0)
+                afterDispatching.Dequeue().Invoke();
         }
     }
 }
