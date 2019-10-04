@@ -67,8 +67,8 @@ namespace Kit.CoreV1
 
 
 
-        public bool IsEntered<TLayer>(T item)
-            => GetLayer<TLayer>().IsEntered(item);
+        public bool DidEnter<TLayer>(T item)
+            => GetLayer<TLayer>().DidEnter(item);
 
 
 

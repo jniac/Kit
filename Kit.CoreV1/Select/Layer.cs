@@ -35,7 +35,7 @@ namespace Kit.CoreV1
                 this.select = select;
             }
 
-            public bool IsEntered(T item) => set.Contains(item);
+            public bool DidEnter(T item) => set.Contains(item);
 
             void CreateSelectedEvent(Type eventType, T item, EventPhase phase)
             {
