@@ -107,7 +107,7 @@ namespace Kit.CoreV1
                 DoChange();
             }
 
-            public void Enter(params T[] items)
+            public void EnterAll(IEnumerable<T> items)
             {
                 if (layerMode == SelectLayerMode.Single)
                     throw new Exception($"Select oups, this layer is NOT in mode {SelectLayerMode.Multiple} (but {SelectLayerMode.Single})");
@@ -119,7 +119,9 @@ namespace Kit.CoreV1
                 DoChange();
             }
 
-            public void EnterAll() => Enter(select.ToArray());
+            public void EnterAll() => EnterAll(select);
+
+            public void Enter(params T[] items) => EnterAll(items);
 
 
 
@@ -149,7 +151,7 @@ namespace Kit.CoreV1
                 DoChange();
             }
 
-            public void Exit(params T[] items)
+            public void ExitAll(IEnumerable<T> items)
             {
                 foreach (T item in items)
                     if (set.Contains(item))
@@ -158,7 +160,9 @@ namespace Kit.CoreV1
                 DoChange();
             }
 
-            public void ExitAll() => Exit(set.ToArray());
+            public void ExitAll() => ExitAll(set);
+
+            public void Exit(params T[] items) => ExitAll(items);
 
 
 
