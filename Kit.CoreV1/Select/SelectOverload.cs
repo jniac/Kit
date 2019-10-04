@@ -72,6 +72,16 @@ namespace Kit.CoreV1
 
 
 
+        public void ToggleAll<TLayer>(Func<T, bool> predicate)
+        {
+            var layer = GetLayer<TLayer>();
+
+            foreach (T item in list)
+                layer.Toggle(predicate(item), item);
+        }
+
+
+
         // Next:
         public void Next()
             => GetLayer(defaultLayerKey).Next();

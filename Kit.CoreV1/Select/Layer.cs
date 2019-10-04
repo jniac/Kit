@@ -161,6 +161,20 @@ namespace Kit.CoreV1
             public void ExitAll() => Exit(set.ToArray());
 
 
+
+            public void Toggle(bool enter, T item)
+            {
+                if (enter)
+                {
+                    Enter(item);
+                }
+                else
+                {
+                    Exit(item);
+                }
+            }
+
+
             void Increment(SelectBoundMode incrementBoundMode, int step)
             {
                 T currentItem = set.FirstOrDefault();
