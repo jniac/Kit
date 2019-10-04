@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Kit.CoreV1
 {
     public partial class Select<T>
     {
+        // Get: Generic
+        public IEnumerable<T> Get<TLayer>() =>
+            GetLayer<TLayer>().set;
         // Enter: layer
         public void Enter(object layerKey, T item)
             => GetLayer(layerKey).Enter(item);
