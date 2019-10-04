@@ -27,6 +27,9 @@ namespace Kit.CoreV1
 
         List<T> list = new List<T>();
 
+        public bool AutoRemoveItem { get; set; } = false;
+        public bool AutoRemoveLayer { get; set; } = false;
+
         Dictionary<object, Layer> layers = new Dictionary<object, Layer>();
 
         public Select(params object[] layerKeys)

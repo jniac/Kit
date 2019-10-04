@@ -13,6 +13,9 @@ namespace Kit.CoreV1
 
         public void Add(T item)
         {
+            if (list.Contains(item))
+                throw new System.Exception($"oups, cannot add an item twice ({item})");
+
             list.Add(item);
         }
 

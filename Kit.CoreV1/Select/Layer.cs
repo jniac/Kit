@@ -23,7 +23,7 @@ namespace Kit.CoreV1
             public HashSet<T> set = new HashSet<T>();
             List<Event> events = new List<Event>();
 
-            public int Count { get => set.Count; }
+            public int Count => set.Count;
 
             public Func<Layer, string> ExtractName = 
                 v => (v.key is Type) ? (v.key as Type).Name : v.key.ToString();
@@ -82,6 +82,10 @@ namespace Kit.CoreV1
 
             void DoEnter(T item)
             {
+                // NOTE: this can be optimized with an internal hashset.
+                if (!select.Contains(item))
+                    select.Add(item);
+
                 set.Add(item);
 
                 CreateSelectedEvent(typeof(SelectEvent<T>.Selected), item, EventPhase.ENTER);
@@ -90,7 +94,7 @@ namespace Kit.CoreV1
                     CreateSelectedEvent(key as Type, item, EventPhase.ENTER);         
             }
 
-            public void Enter(T item) 
+            public void Enter(T item)
             {
                 if (set.Contains(item))
                     return;
@@ -122,6 +126,14 @@ namespace Kit.CoreV1
             void DoExit(T item)
             {
                 set.Remove(item);
+
+                if (select.AutoRemoveItem 
+                    && !select.layers.Values.Any(layer => layer.set.Contains(item)))
+                        select.Remove(item);
+
+                if (select.AutoRemoveLayer 
+                    && set.Count == 0)
+                    select.layers.Remove(key);
 
                 CreateSelectedEvent(typeof(SelectEvent<T>.Selected), item, EventPhase.EXIT);
 
