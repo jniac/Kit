@@ -160,7 +160,7 @@ namespace Kit.CoreV1
                 DoChange();
             }
 
-            public void ExitAll() => ExitAll(set);
+            public void ExitAll() => ExitAll(set.ToArray());
 
             public void Exit(params T[] items) => ExitAll(items);
 
