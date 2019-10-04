@@ -178,7 +178,10 @@ namespace Kit.CoreV1
             public void Previous(SelectBoundMode boundMode)
                 => Increment(boundMode, -1);
 
-            public string GetInfo() => $"{key}({set.Count}): {string.Join(",", set.ToArray())}";
+            public string GetInfo() => $"{key}({set.Count}): {string.Join(",", set)}";
+
+            public string GetDetailedInfo() =>
+                $"{key}({set.Count}):\n{string.Join(",", set.Select(v => $"#{select.list.IndexOf(v)}"))}";
         }
     }
 }

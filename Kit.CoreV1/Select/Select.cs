@@ -59,6 +59,11 @@ namespace Kit.CoreV1
             }
         }
 
+        public Layer[] GetAllLayers()
+        {
+            return layers.Values.ToArray();
+        }
+
         public Layer GetLayer(object layerKey)
         {
             if (!layers.TryGetValue(layerKey, out Layer layer))
@@ -90,6 +95,14 @@ namespace Kit.CoreV1
             }
 
             return $"Select ({list.Count}:{layers.Count}):{layerStr}";
+        }
+
+        public string GetDetailedInfo()
+        {
+            return $"{GetType().Name.Split('`')[0]}<{typeof(T).Name}>({list.Count}):\n"
+                + string.Join("\n", list.Select((v, i) => $"#{i}: {v}"))
+                + $"\n\nLayers({layers.Count}):\n\n"
+                + string.Join("\n\n", layers.Values.Select(layer => layer.GetDetailedInfo()));
         }
     }
 }
