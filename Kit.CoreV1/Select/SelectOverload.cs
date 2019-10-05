@@ -98,6 +98,9 @@ namespace Kit.CoreV1
 
 
 
+        public void Toggle<TLayer>(bool enter, T item) =>
+            GetLayer<TLayer>().Toggle(enter, item);
+
         public void ToggleAll<TLayer>(Func<T, bool> predicate)
         {
             var layer = GetLayer<TLayer>();
