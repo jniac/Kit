@@ -24,6 +24,7 @@ namespace Kit.CoreV1
             public static Listener[] Get(object target, Event e)
             {
                 Listener[] listeners = register.Get(target)
+                    // NOTE: order is important for optimization
                     .Where(lsn => lsn.eventType.IsInstanceOfType(e) && lsn.MatchType(e.type) && lsn.IsEnabled)
                     .ToArray();
 

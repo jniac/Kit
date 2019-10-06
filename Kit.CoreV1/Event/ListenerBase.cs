@@ -6,6 +6,9 @@ namespace Kit.CoreV1
     {
         public partial class Listener
         {
+            // 'IsContainer' is used by While<>() to allow invocation 
+            // even if parent listener has 'ChildrenDisabled' = true
+            public bool IsContainer { get; set; } = false;
             public bool ChildrenDisabled { get; set; } = false;
 
             List<Listener> children = new List<Listener>();
@@ -42,16 +45,17 @@ namespace Kit.CoreV1
                 }
             }
 
-            public bool GetIsEnabled()
+            public bool DisabledByAncestor()
             {
                 foreach (var ancestor in GetAncestors())
                     if (ancestor.ChildrenDisabled)
-                        return false;
+                        return true;
 
-                return true;
+                return false;
             }
 
-            public bool IsEnabled { get => GetIsEnabled(); }
+            // 'IsEnabled' = true if the listener is a container (to allow While process)
+            public bool IsEnabled => IsContainer || !DisabledByAncestor();
 
             public static Listener operator +(Listener lhs, Listener rhs)
             {
