@@ -14,7 +14,7 @@ namespace Kit.CoreV1
                 enter:e => master.ChildrenDisabled = false, 
                 exit:e => master.ChildrenDisabled = true);
 
-            master.IsContainer = true;
+            master.IsWhileContainer = true;
             master.ChildrenDisabled = true;
 
             foreach (var listener in listeners)
