@@ -73,6 +73,13 @@ namespace Kit.Utils
 
 
 
+        public static IEnumerable<T> Each<T>(this IEnumerable<T> items, Action<T> action)
+        {
+            foreach (T item in items)
+                action(item);
+
+            return items;
+        }
         /*
          * Interval loop, eg:
          * [a, b, c, d].ForInterval(interval => {
