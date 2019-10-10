@@ -109,14 +109,22 @@ namespace Kit.CoreV1
 
             public void EnterAll(IEnumerable<T> items)
             {
+                if (!items.Any())
+                    return;
+
+                // NOTE: if 'single', no more error here, instead enter only the last item.
                 if (layerMode == SelectLayerMode.Single)
-                    throw new Exception($"Select oups, this layer is NOT in mode {SelectLayerMode.Multiple} (but {SelectLayerMode.Single})");
+                {
+                    Enter(items.Last());
+                }
+                else
+                {
+                    foreach (T item in items)
+                        if (!set.Contains(item))
+                            DoEnter(item);
 
-                foreach (T item in items)
-                    if (!set.Contains(item))
-                        DoEnter(item);
-
-                DoChange();
+                    DoChange();
+                }
             }
 
             public void EnterAll() => EnterAll(select);
