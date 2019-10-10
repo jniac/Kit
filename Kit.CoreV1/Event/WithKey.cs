@@ -14,5 +14,12 @@ namespace Kit.CoreV1
 
             defaultKey = previousDefaultKey;
         }
+
+        public static void WithKey(object key, params Listener[] listeners)
+        {
+            foreach (var listener in listeners)
+                foreach (var child in listener.GetDescendants(true))
+                    child.key = key;
+        }
     }
 }
