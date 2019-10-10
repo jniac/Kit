@@ -44,7 +44,8 @@ namespace Kit.CoreV1
             static int listenerCount;
             public readonly int id = listenerCount++;
 
-            public readonly object target, type, key;
+            public object key;
+            public readonly object target, type;
             public readonly Type eventType;
 
             public bool Destroyed { get; private set; } = false;
