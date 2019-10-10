@@ -22,8 +22,11 @@ namespace Kit.CoreV1
                 children.Add(child);
             }
 
-            public IEnumerable<Listener> GetAncestors()
+            public IEnumerable<Listener> GetAncestors(bool includeSelf = false)
             {
+                if (includeSelf)
+                    yield return this;
+
                 Listener current = parent;
 
                 while (current != null)
@@ -34,15 +37,14 @@ namespace Kit.CoreV1
                 }
             }
 
-            public IEnumerable<Listener> GetDescendants()
+            public IEnumerable<Listener> GetDescendants(bool includeSelf = false)
             {
-                foreach(Listener child in children)
-                {
-                    yield return child;
+                if (includeSelf)
+                    yield return this;
 
-                    foreach (Listener grandChild in child.GetDescendants())
+                foreach(Listener child in children)
+                    foreach (Listener grandChild in child.GetDescendants(true))
                         yield return grandChild;
-                }
             }
 
             public bool DisabledByAncestor()
