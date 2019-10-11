@@ -104,8 +104,8 @@ namespace Kit.CoreV1
                 if (set.Contains(item))
                     return;
 
-                if (layerMode == SelectLayerMode.Single && set.Count == 1)
-                    DoExit(set.First());
+                if (layerMode == SelectLayerMode.Single && set.Count > 0)
+                    DoExit(set.First(), true);
 
                 DoEnter(item);
 
@@ -138,7 +138,7 @@ namespace Kit.CoreV1
 
 
 
-            void DoExit(T item)
+            void DoExit(T item, bool preventAutoRemoveLayer = false)
             {
                 set.Remove(item);
 
@@ -146,7 +146,8 @@ namespace Kit.CoreV1
                     && !select.layers.Values.Any(layer => layer.set.Contains(item)))
                         select.Remove(item);
 
-                if (select.AutoRemoveLayer 
+                if (select.AutoRemoveLayer
+                    && !preventAutoRemoveLayer
                     && set.Count == 0)
                     select.layers.Remove(key);
 
