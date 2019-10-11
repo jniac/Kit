@@ -39,14 +39,18 @@ namespace Kit.CoreV1
 
             void CreateSelectedEvent(Type eventType, T item, EventPhase phase)
             {
-                SelectEvent<T> e = (SelectEvent<T>)Activator.CreateInstance(eventType);
+                Event e = (Event)Activator.CreateInstance(eventType);
 
                 e.Targets = new object[] { item, select };
                 e.Type = key;
                 e.Phase = phase;
-                e.select = select;
-                e.layer = this;
-                e.item = item;
+
+                if (e is SelectEvent<T> se)
+                {
+                    se.select = select;
+                    se.layer = this;
+                    se.item = item;
+                }
 
                 events.Add(e);
             }
@@ -90,7 +94,8 @@ namespace Kit.CoreV1
 
                 CreateSelectedEvent(typeof(SelectEvent<T>.Selected), item, EventPhase.ENTER);
 
-                if (key is Type && typeof(SelectEvent<T>).IsAssignableFrom(key as Type))
+                //if (key is Type && typeof(SelectEvent<T>).IsAssignableFrom(key as Type))
+                if (key is Type && typeof(Event).IsAssignableFrom(key as Type))
                     CreateSelectedEvent(key as Type, item, EventPhase.ENTER);         
             }
 
@@ -147,7 +152,8 @@ namespace Kit.CoreV1
 
                 CreateSelectedEvent(typeof(SelectEvent<T>.Selected), item, EventPhase.EXIT);
 
-                if (key is Type && typeof(SelectEvent<T>).IsAssignableFrom(key as Type))
+                //if (key is Type && typeof(SelectEvent<T>).IsAssignableFrom(key as Type))
+                if (key is Type && typeof(Event).IsAssignableFrom(key as Type))
                     CreateSelectedEvent(key as Type, item, EventPhase.EXIT);
             }
 
