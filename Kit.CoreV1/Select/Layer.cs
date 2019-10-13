@@ -41,15 +41,19 @@ namespace Kit.CoreV1
             {
                 Event e = (Event)Activator.CreateInstance(eventType);
 
-                e.Targets = new object[] { item, select };
                 e.Type = key;
                 e.Phase = phase;
 
                 if (e is SelectEvent<T> se)
                 {
+                    e.Targets = new object[] { item, select };
                     se.select = select;
                     se.layer = this;
                     se.item = item;
+                }
+                else
+                {
+                    e.Target = item;
                 }
 
                 events.Add(e);
