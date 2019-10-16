@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Kit.Utils
 {
+    /// <summary>
+    /// Toggle.
+    /// </summary>
     public class Toggle
     {
         bool value = false;
