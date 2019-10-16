@@ -138,7 +138,7 @@ namespace Kit.CoreV1
         public new T CurrentTarget { get => currentTarget as T; }
 
         public new Func<T, object> Propagation { get; set; } = null;
-        protected override object InvokePropagation(object t)
-            => Propagation == null ? null : Propagation(t as T);
+        protected override object InvokePropagation(object t) =>
+            Propagation == null ? null : Propagation(t as T);
     }
 }

@@ -27,5 +27,18 @@ namespace Kit.CoreV1
             listener.maxInvokeCount = 1;
             return listener;
         }
+
+        public static Listener<T> Once<T>(object target,
+            Action<T> callback = null,
+            Action<T> enter = null,
+            Action<T> exit = null,
+            object key = null,
+            int priority = PRIORITY_NORMAL)
+            where T : class, IEvent
+        {
+            var listener = On<T>(target, "*", callback, enter, exit, key, priority);
+            listener.maxInvokeCount = 1;
+            return listener;
+        }
     }
 }
