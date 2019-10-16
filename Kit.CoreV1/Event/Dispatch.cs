@@ -31,11 +31,19 @@ namespace Kit.CoreV1
             if (newTarget == null)
                 return new object[0];
 
+            if (newTarget is string)
+                return new object[] { newTarget };
+
+            // no, no & no. IEnumerable is too buggy
+            //if (newTarget is IEnumerable newTargets)
+            //// important: remove null targets
+            //return newTargets.OfType<object>().ToArray();
+
             if (newTarget is IList)
             {
                 var list = new List<object>();
 
-                foreach (object t2 in newTarget as IList)
+                foreach (object t2 in newTarget as IEnumerable)
                     if (t2 != null) // important: remove null targets
                         list.Add(t2);
 
