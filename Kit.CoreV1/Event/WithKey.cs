@@ -5,6 +5,26 @@ namespace Kit.CoreV1
     {
         static object defaultKey;
 
+        public class DisposableKey : IDisposable
+        {
+            object previousDefaultKey;
+
+            public DisposableKey(object key)
+            {
+                previousDefaultKey = defaultKey;
+                defaultKey = key;
+            }
+
+            public void Dispose()
+            {
+                defaultKey = previousDefaultKey;
+				previousDefaultKey = null;
+            }
+        }
+
+        public static DisposableKey WithKey(object key) =>
+            new DisposableKey(key);
+
         public static void WithKey(object key, Action callback)
         {
             object previousDefaultKey = defaultKey;
