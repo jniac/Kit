@@ -49,7 +49,7 @@ namespace Kit.Utils
             HasChanged = false;
         }
 
-        void Clear()
+        public void Clear()
         {
             actions1?.Clear();
             actions2?.Clear();
