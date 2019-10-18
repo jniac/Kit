@@ -11,6 +11,7 @@ namespace Kit.Utils
             List<Action> actions;
             List<Action<T>> actionsT;
             List<Action<T, T>> actionsTT;
+            List<Action<Toggle<T>>> actionsToggle;
 
             public void Add(Action action) =>
                 (actions ?? (actions = new List<Action>())).Add(action);
@@ -18,8 +19,11 @@ namespace Kit.Utils
             public void Add(Action<T> action) =>
                 (actionsT ?? (actionsT = new List<Action<T>>())).Add(action);
 
-            public void Add(Action<T,T> action) =>
+            public void Add(Action<T, T> action) =>
                 (actionsTT ?? (actionsTT = new List<Action<T, T>>())).Add(action);
+
+            public void Add(Action<Toggle<T>> action) =>
+                (actionsToggle ?? (actionsToggle = new List<Action<Toggle<T>>>())).Add(action);
 
             public void Call(Toggle<T> toggle)
             {
@@ -34,6 +38,10 @@ namespace Kit.Utils
                 if (actionsTT != null)
                     foreach (var action in actionsTT)
                         action(toggle.value, toggle.OldValue);
+
+                if (actionsToggle != null)
+                    foreach (var action in actionsToggle)
+                        action(toggle);
             }
 
             public void StackClear()
@@ -41,10 +49,12 @@ namespace Kit.Utils
                 actions?.Clear();
                 actionsT?.Clear();
                 actionsTT?.Clear();
+                actionsToggle?.Clear();
 
                 actions = null;
                 actionsT = null;
                 actionsTT = null;
+                actionsToggle = null;
             }
 
             public static Stack operator +(Stack lhs, Action rhs)
@@ -61,7 +71,14 @@ namespace Kit.Utils
                 return lhs;
             }
 
-            public static Stack operator +(Stack lhs, Action<T,T> rhs)
+            public static Stack operator +(Stack lhs, Action<T, T> rhs)
+            {
+                lhs.Add(rhs);
+
+                return lhs;
+            }
+
+            public static Stack operator +(Stack lhs, Action<Toggle<T>> rhs)
             {
                 lhs.Add(rhs);
 
@@ -84,10 +101,15 @@ namespace Kit.Utils
         public Stack OnReset = new Stack();
         public Stack OnChange = new Stack();
 
-        public Toggle(T value = default)
+        public Toggle(T value = default, T oldValue = default)
         {
-            OldValue = value;
+            OldValue = oldValue;
             this.value = value;
+        }
+
+        public void ToggleValue()
+        {
+            SetValue(OldValue);
         }
 
         void SetValue(T newValue)
@@ -117,7 +139,6 @@ namespace Kit.Utils
         }
 
         public static implicit operator T(Toggle<T> toggle) => toggle != null ? toggle.value : default;
-        public static implicit operator bool(Toggle<T> toggle) => toggle != null && toggle.value != default;
 
         public static void Clear(object holder)
         {
