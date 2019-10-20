@@ -30,7 +30,7 @@ namespace Kit.CoreV1
         public bool AutoRemoveItem { get; set; } = false;
         public bool AutoRemoveLayer { get; set; } = false;
 
-        Dictionary<object, Layer> layers = new Dictionary<object, Layer>();
+        protected Dictionary<object, Layer> layers = new Dictionary<object, Layer>();
 
         public Select(params object[] layerKeys)
         {
