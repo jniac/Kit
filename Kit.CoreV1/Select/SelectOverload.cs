@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kit.CoreV1
 {
@@ -9,6 +10,8 @@ namespace Kit.CoreV1
         public IEnumerable<T> Get<TLayer>() =>
             GetLayer<TLayer>().set;
 
+        public T First<TLayer>() =>
+            GetLayer<TLayer>().set.First();
 
 
         // Enter: layer
