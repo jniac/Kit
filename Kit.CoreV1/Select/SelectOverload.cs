@@ -13,6 +13,9 @@ namespace Kit.CoreV1
         public T First<TLayer>() =>
             GetLayer<TLayer>().set.First();
 
+        public T FirstOrDefault<TLayer>() =>
+            GetLayer<TLayer>().set.FirstOrDefault();
+
 
         // Enter: layer
         public void Enter(object layerKey, T item)
