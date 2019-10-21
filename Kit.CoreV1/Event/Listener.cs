@@ -39,6 +39,8 @@ namespace Kit.CoreV1
             public static Listener[] ByKey(object key) =>
                 register.GetWithOptionalKey(key).ToArray();
 
+            public static HashSet<Action<Listener>> OnNewListener = new HashSet<Action<Listener>>();
+
 
 
             static int listenerCount;
@@ -76,6 +78,9 @@ namespace Kit.CoreV1
                 this.priority = priority;
 
                 register.Add(this, this.target, this.key);
+
+                foreach (var action in OnNewListener)
+                    action(this);
             }
 
             public bool MatchType(object otherType)
