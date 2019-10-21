@@ -4,13 +4,14 @@
 
 ### Creation
 ```csharp
-public Toggle Active = new Toggle(false);
+public Toggle Active = new Toggle<bool>();
 ```
 
 ### Listener
-2 possibilities:
+3 possibilities:
 - `Action`
-- `Action<bool>`
+- `Action<T>` where T is the new value
+- `Action<T,T>` where (T, T) are (new, old) values
 
 Classic (old fashioned way?):
 ```csharp

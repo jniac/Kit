@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Kit.Utils
 {
-    public class Toggle<T>
+    public class Toggle<T> : Toggle
     {
         public class Stack
         {
@@ -131,7 +131,7 @@ namespace Kit.Utils
             HasChanged = false;
         }
 
-        public void Clear()
+        public override void Clear()
         {
             OnSet.StackClear();
             OnReset.StackClear();
@@ -140,11 +140,13 @@ namespace Kit.Utils
 
         public static implicit operator T(Toggle<T> toggle) => toggle != null ? toggle.value : default;
 
-        public static void Clear(object holder)
-        {
-            foreach (var field in holder.GetType().GetFields())
-                if (typeof(Toggle<T>).IsAssignableFrom(field.FieldType))
-                    (field.GetValue(holder) as Toggle<T>).Clear();
-        }
+        // Generic Clear() useful ? 
+        // hm, not sure
+        //public static new void Clear(object holder)
+        //{
+        //    foreach (var field in holder.GetType().GetFields())
+        //        if (typeof(Toggle<T>).IsAssignableFrom(field.FieldType))
+        //            (field.GetValue(holder) as Toggle<T>).Clear();
+        //}
     }
 }
