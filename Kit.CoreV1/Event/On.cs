@@ -8,23 +8,26 @@ namespace Kit.CoreV1
             Action<Event> enter = null,
             Action<Event> exit = null,
             object key = null,
-            int priority = PRIORITY_NORMAL)
-            => new Listener(target, type, key, callback, enter, exit, typeof(Event), priority);
+            int priority = PRIORITY_NORMAL,
+            bool consume = false)
+            => new Listener(target, type, key, callback, enter, exit, typeof(Event), priority, consume);
 
         public static Listener On(object target,
             Action<Event> callback = null,
             Action<Event> enter = null,
             Action<Event> exit = null,
             object key = null,
-            int priority = PRIORITY_NORMAL)
-            => new Listener(target, "*", key, callback, enter, exit, typeof(Event), priority);
+            int priority = PRIORITY_NORMAL,
+            bool consume = false)
+            => new Listener(target, "*", key, callback, enter, exit, typeof(Event), priority, consume);
 
         public static Listener<T> On<T>(object target, object type,
             Action<T> callback = null,
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null,
-            int priority = PRIORITY_NORMAL)
+            int priority = PRIORITY_NORMAL,
+            bool consume = false)
             where T : class, IEvent
         {
             Action<Event> callbackT = null, enterT = null, exitT = null;
@@ -38,7 +41,7 @@ namespace Kit.CoreV1
             if (exit != null)
                 exitT = e => exit(e as T);
 
-            return new Listener<T>(target, type, key, callbackT, enterT, exitT, typeof(T), priority);
+            return new Listener<T>(target, type, key, callbackT, enterT, exitT, typeof(T), priority, consume);
         }
 
         public static Listener<T> On<T>(object target,
@@ -46,17 +49,19 @@ namespace Kit.CoreV1
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null,
-            int priority = PRIORITY_NORMAL)
+            int priority = PRIORITY_NORMAL,
+            bool consume = false)
             where T : class, IEvent
-            => On<T>(target, "*", callback, enter, exit, key, priority);
+            => On<T>(target, "*", callback, enter, exit, key, priority, consume);
 
         public static Listener<T> On<T>(
             Action<T> callback = null,
             Action<T> enter = null,
             Action<T> exit = null,
             object key = null,
-            int priority = PRIORITY_NORMAL)
+            int priority = PRIORITY_NORMAL,
+            bool consume = false)
             where T : class, IEvent
-            => On<T>(global, "*", callback, enter, exit, key, priority);
+            => On<T>(global, "*", callback, enter, exit, key, priority, consume);
     }
 }

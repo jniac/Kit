@@ -57,13 +57,15 @@ namespace Kit.CoreV1
 
             public readonly Action<Event> callback, enter, exit;
             public int priority;
+            public bool consume;
 
             public Listener(object target, object type, object key, 
                 Action<Event> callback, 
                 Action<Event> enter, 
                 Action<Event> exit,
                 Type eventType,
-                int priority)
+                int priority, 
+                bool consume)
             {
                 this.target = target ?? global;
                 this.type = type ?? "*";
@@ -76,6 +78,7 @@ namespace Kit.CoreV1
                 this.eventType = eventType;
 
                 this.priority = priority;
+                this.consume = consume;
 
                 register.Add(this, this.target, this.key);
 
@@ -100,6 +103,9 @@ namespace Kit.CoreV1
 
                 if (e.Exit)
                     exit?.Invoke(e);
+
+                if (consume)
+                    e.Consume();
 
                 DisposeAwaiters(e);
 

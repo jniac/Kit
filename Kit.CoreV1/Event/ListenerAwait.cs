@@ -74,7 +74,8 @@ namespace Kit.CoreV1
                 Action<Event> enter,
                 Action<Event> exit,
                 Type eventType,
-                int priority) : base(target, type, key, callback, enter, exit, eventType, priority) { }
+                int priority,
+                bool consume) : base(target, type, key, callback, enter, exit, eventType, priority, consume) { }
 
             public new struct InvocationAwaitable
             {
