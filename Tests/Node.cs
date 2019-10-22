@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Kit.CoreV1.Tests
+namespace Kit.Tests
 {
     public class Node : Tree<Node>
     {

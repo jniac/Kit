@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Kit.CoreV1
+namespace Kit
 {
     public enum SelectBoundMode { NONE, CLAMP, LOOP, LOOP_OVER_NONE }
 

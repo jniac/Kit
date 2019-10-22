@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace Kit.Utils
+namespace Kit
 {
     public class Toggle<T> : Toggle
     {

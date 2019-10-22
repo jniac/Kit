@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kit.CoreV1
+namespace Kit
 {
 	// NOTE: hm, not clear actually,
 	// should IEvent become the base of dispatching with some GetTarget() method to implement ?

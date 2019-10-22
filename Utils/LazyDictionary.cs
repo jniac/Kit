@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kit.Utils
+namespace Kit
 {
     // https://stackoverflow.com/questions/2601477/dictionary-returning-a-default-value-if-the-key-does-not-exist
     /*

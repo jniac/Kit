@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Kit.CoreV1
+namespace Kit
 {
     // Tree.
     // Self-referecing generic class... wah.

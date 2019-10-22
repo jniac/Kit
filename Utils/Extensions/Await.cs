@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Kit.Utils
+namespace Kit
 {
     // inspired from https://devblogs.microsoft.com/pfxteam/await-anything/
     public static class Await

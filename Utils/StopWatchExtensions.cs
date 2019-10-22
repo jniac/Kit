@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Kit.Utils
+namespace Kit
 {
     public static class StopWatchExtensions
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Kit.CoreV1
+namespace Kit
 {
     public class Select<T, TLayerTuple> : Select<T>
     {

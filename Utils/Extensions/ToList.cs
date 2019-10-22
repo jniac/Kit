@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kit.Utils
+namespace Kit
 {
     public static class ToListExtensions
     {

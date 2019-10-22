@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Kit.Utils
+namespace Kit
 {
     public class FloatAverage
     {

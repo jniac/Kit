@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kit.CoreV1
+namespace Kit
 {
     public enum EventPhase
     {

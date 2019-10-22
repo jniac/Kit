@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Kit.CoreV1
+namespace Kit
 {
     public partial class Event
     {

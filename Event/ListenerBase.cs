@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kit.CoreV1
+namespace Kit
 {
     public partial class Event
     {

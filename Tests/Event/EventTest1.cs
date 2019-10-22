@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Kit.CoreV1.Tests
+namespace Kit.Tests
 {
     public static partial class EventTest
     {

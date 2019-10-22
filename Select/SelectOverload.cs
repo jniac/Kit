@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kit.CoreV1
+namespace Kit
 {
     public partial class Select<T>
     {

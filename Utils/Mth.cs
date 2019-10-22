@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kit.Utils
+namespace Kit
 {
     public static class Mth
     {

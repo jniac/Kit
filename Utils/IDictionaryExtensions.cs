@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kit.Utils
+namespace Kit
 {
     public static class IDictionaryExtensions
     {

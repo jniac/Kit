@@ -1,4 +1,4 @@
-namespace Kit.CoreV1
+namespace Kit
 {
 	// generated with SelectOverloadMultiple.js
     public partial class Select<T>

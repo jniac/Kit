@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kit.Utils
+namespace Kit
 {
     // quite well referenced:
     // https://gist.github.com/blixt/f17b47c62508be59987b
