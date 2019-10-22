@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,8 +7,11 @@ namespace Kit.Utils
 {
     public static class IEnumerableExtensions
     {
-        public static string StringJoin<T>(this IEnumerable<T> enumerable, string separator = ", ")
-            => string.Join(separator, enumerable.Select(item => item?.ToString()));
+        public static string StringJoin<T>(this IEnumerable<T> enumerable, string separator = ", ") =>
+            string.Join(separator, enumerable.Select(item => item?.ToString()));
+
+        //public static string StringJoin(this ICollection icollection, string separator = ", ") =>
+            //string.Join(separator, icollection.Cast<object>());
 
         public static string StringInfo<T>(this IEnumerable<T> items, string separator = ", ")
             => $"{items.GetType().Name}<{typeof(T).Name}>({items.Count()}) {StringJoin(items, separator)}";
