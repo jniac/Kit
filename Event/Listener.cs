@@ -16,10 +16,10 @@ namespace Kit
             static RegisterWithOptionalKey<Listener, object, object> register =
                 new RegisterWithOptionalKey<Listener, object, object>();
 
-            public static int TotalCount { get => register.TotalCount; }
-            public static string Info { get => $"Listeners: {register.TotalCount}, keys: {register.Keys.Count()}"; }
-            public static string InfoAllListener { get => register.InfoAllValues; }
-            public static string InfoAllKeys { get => string.Join("\n", register.Keys.Select((v, i) => $"{i}: {v}")); }
+            public static int TotalCount => register.TotalCount;
+            public static string Info => $"Listeners: {register.TotalCount}, keys: {register.Keys.Count()}";
+            public static string InfoAllListener => register.InfoAllValues;
+            public static string InfoAllKeys => string.Join("\n", register.Keys.Select((v, i) => $"{i}: {v}"));
 
             public static Listener[] Get(object target, Event e)
             {
