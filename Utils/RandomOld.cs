@@ -1,15 +1,15 @@
 ﻿using System;
 namespace Kit
 {
-    public class Random
+    public class RandomOld
     {
-        public static Random R = new Random();
+        public static RandomOld R = new RandomOld();
 
         System.Random random;
 
         const float INT_MAX_VALUE = int.MaxValue;
 
-        public Random(int seed = 12345)
+        public RandomOld(int seed = 12345)
         {
             random = new System.Random(seed);
         }
