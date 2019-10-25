@@ -21,6 +21,15 @@ namespace Kit
             public static string InfoAllListener => register.InfoAllValues;
             public static string InfoAllKeys => string.Join("\n", register.Keys.Select((v, i) => $"{i}: {v}"));
 
+            public static Listener[] DebugExtractListeners(int start, int count)
+            {
+#if DEBUG
+                return register.all.Skip(start).Take(count).ToArray();
+#else
+                return new Listener[0];
+#endif
+            }
+
             public static Listener[] Get(object target, Event e)
             {
                 Listener[] listeners = register.Get(target)

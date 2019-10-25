@@ -12,6 +12,10 @@ namespace Kit
 
             public int TotalCount { get; private set; }
 
+#if DEBUG
+            public List<TValue> all = new List<TValue>();
+#endif
+
             public string InfoAllValues
             {
                 get
@@ -45,6 +49,9 @@ namespace Kit
                 {
                     if (values.Add(value))
                     {
+#if DEBUG
+                        all.Add(value);
+#endif
                         TotalCount++;
                         return true;
                     }
@@ -55,6 +62,9 @@ namespace Kit
                 values = new HashSet<TValue> { value };
                 dict.Add(key, values);
 
+#if DEBUG
+                all.Add(value);
+#endif
                 TotalCount++;
                 return true;
             }
@@ -74,7 +84,12 @@ namespace Kit
                     bool removed = values.Remove(value);
 
                     if (removed)
+                    {
+#if DEBUG
+                        all.Remove(value);
+#endif
                         TotalCount--;
+                    }
 
                     if (values.Count == 0)
                         dict.Remove(key);
