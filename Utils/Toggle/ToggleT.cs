@@ -112,7 +112,7 @@ namespace Kit
             SetValue(OldValue);
         }
 
-        void SetValue(T newValue)
+        protected virtual void SetValue(T newValue)
         {
             if (Equals(value, newValue))
                 return;
