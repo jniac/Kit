@@ -90,16 +90,28 @@ namespace Kit
             Dispatch(e);
         }
 
-        public EventPhase Phase { get; set; } = EventPhase.NONE;
+        public EventPhase phase = EventPhase.NONE;
+        void SetPhase(EventPhase phase)
+        {
+            if (this is IInstantaneous && phase != EventPhase.NONE)
+                throw new Exception("oups, instantaneous event (IInstantaneous) cannot have ENTER or EXIT phase");
+
+            this.phase = phase;
+        }
+        public EventPhase Phase
+        {
+            get => phase;
+            set => SetPhase(value);
+        }
         public bool Enter
         {
             get => Phase == EventPhase.ENTER;
-            set { Phase = value ? EventPhase.ENTER : EventPhase.EXIT; }
+            set => SetPhase(value ? EventPhase.ENTER : EventPhase.EXIT);
         }
         public bool Exit
         {
             get => Phase == EventPhase.EXIT;
-            set { Phase = value ? EventPhase.EXIT : EventPhase.ENTER; }
+            set => SetPhase(value ? EventPhase.EXIT : EventPhase.ENTER);
         }
 
         public bool StartsGlobal { get; set; } = false;

@@ -8,4 +8,7 @@ namespace Kit
     public interface IConsumableEvent { }
     public interface IEndsGlobalEvent { }
     public interface IStartsGlobalEvent { }
+
+    // Design
+    public interface IInstantaneous { } // instantaneous cannot have Enter or Exit phases 
 }
