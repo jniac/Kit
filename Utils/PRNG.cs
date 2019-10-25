@@ -36,13 +36,36 @@ namespace Kit
         public uint Next() =>
             seed = seed * 16807 % 2147483647;
 
+
+
         public float Float() => 
             Next() / 2147483647f;
 
         public float Float(float max) =>
             max * Float();
-
+            
         public float Float(float min, float max) =>
             min + (max - min) * Float();
+
+
+
+        public int Int(int max) =>
+            (int)Float(max);
+
+
+
+        public bool Chance(float esperance) =>
+            Float() < esperance;
+    }
+
+    public static class PRNGS
+    {
+        static PRNG prng = new PRNG();
+
+        public static float Float() => prng.Float();
+        public static float Float(float max) => prng.Float(max);
+        public static float Float(float min, float max) => prng.Float(min, max);
+        public static bool Chance(float esperance) => prng.Chance(esperance);
+
     }
 }
